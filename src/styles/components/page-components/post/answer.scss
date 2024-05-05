@@ -1,0 +1,61 @@
+@use '../../../variables.scss';
+@use '../../../mixins.scss';
+
+.answer {
+    width: 85%;
+    margin-left: auto;
+    @include mixins.flex-column;
+    align-items: start;
+    line-height: 2rem;
+    word-break: break-word;
+
+    >.top {
+        position: relative;
+        @include mixins.flex-center;
+        gap: 1rem;
+        padding: .5rem 1rem;
+
+        >img {
+            width: 5.55rem;
+        }
+
+        >a {
+            >h1 {
+                font-size: 1.5rem;
+                color: variables.getColor(text);
+
+                &:hover {
+                    text-decoration: underline;
+                }
+
+                @media screen and (max-width:700px) {
+                    padding-bottom: 1rem;
+                }
+            }
+        }
+
+        >p {
+            font-size: 1.25rem;
+            color: variables.getColor(info-text);
+            position: absolute;
+            bottom: 0;
+            left: 7.77rem;
+        }
+    }
+
+    >.content {
+        width: 100%;
+        border-radius: .5rem;
+        padding: 1rem 1.6rem;
+
+        >p {
+            font-size: 1.333rem;
+            color: variables.getColor(text);
+        }
+    }
+
+    >.bottom {
+        width: 100%;
+        @include mixins.flex-center;
+    }
+}

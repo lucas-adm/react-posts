@@ -1,0 +1,63 @@
+@use '../variables.scss';
+@use '../mixins.scss';
+
+.container-login {
+    @include mixins.grid-center;
+    grid-template-columns: 25% 75%;
+    min-height: 100vh;
+    background: variables.getColor(gradient);
+
+    .container-form {
+        max-width: 480px;
+        min-width: 330px;
+        width: 100%;
+        height: 100%;
+        padding: 1.777rem 0;
+        gap: 2.25rem;
+        @include mixins.flex-column;
+        background-color: variables.getColor(bgc);
+
+        a {
+            width: 100%;
+        }
+
+        .or {
+            cursor: default;
+
+            h2 {
+                position: relative;
+                color: variables.getColor(grey);
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: -12.25rem;
+                    width: 11rem;
+                    height: .05rem;
+                    background-color: variables.getColor(grey);
+                }
+
+                &::after {
+                    content: '';
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: -12.25rem;
+                    width: 11rem;
+                    height: .05rem;
+                    background-color: variables.getColor(grey);
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 999px) {
+        grid-template-columns: 1fr;
+
+        .container-form {
+            max-width: 100%;
+        }
+    }
+}

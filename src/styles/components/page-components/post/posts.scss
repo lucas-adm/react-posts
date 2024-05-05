@@ -1,0 +1,45 @@
+@use '../../../variables.scss';
+@use '../../../mixins.scss';
+
+.posts {
+    @include mixins.flex-column;
+    gap: 1.1rem;
+    width: 100%;
+
+    >.top {
+        width: 100%;
+        @include mixins.flex-center;
+        justify-content: start;
+        gap: 2.25rem;
+        background-color: variables.getColor(bgc);
+        padding: 1rem;
+
+        >h1 {
+            font-size: 1.75rem;
+            cursor: pointer;
+            font-weight: 300;
+            color: variables.getColor(info-text);
+
+            &.current {
+                font-weight: bolder;
+                text-decoration: underline;
+            }
+        }
+    }
+
+    >.load-more {
+        cursor: pointer;
+        @include mixins.flex-center;
+        gap: .5rem;
+
+        >img {
+            width: 3.33rem;
+        }
+
+        p {
+            color: variables.getColor(text);
+            font-size: 1.5rem;
+        }
+    }
+
+}

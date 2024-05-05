@@ -1,0 +1,38 @@
+@use '../../../variables.scss';
+@use '../../../mixins.scss';
+
+.container-change-photo {
+    max-width: 777px;
+    width: 100%;
+    @include mixins.flex-column;
+    gap: 3.33rem;
+    margin: 0 auto;
+    padding-top: 17.77rem;
+
+
+    .container-photo {
+        width: 100%;
+        @include mixins.flex-column;
+        border-radius: 1rem;
+        padding: 2rem;
+        background-color: variables.getColor(white);
+        box-shadow: variables.getColor(blur-shadow);
+
+        @media screen and (max-width: 777px) {
+            border-radius: 0;
+        }
+
+        >img {
+            width: 50%;
+        }
+
+        .button {
+            max-width: 250px;
+        }
+
+        form {
+            width: 100%;
+            @include mixins.flex-center;
+        }
+    }
+}

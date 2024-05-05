@@ -1,0 +1,110 @@
+@use '../variables.scss';
+@use '../mixins.scss';
+
+header {
+    z-index: 999;
+    position: fixed;
+    width: 100vw;
+    background-color: variables.getColor(bgc);
+    box-shadow: variables.getColor(bottom-shadow);
+
+    nav {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: .5rem 1rem;
+        @include mixins.flex-center;
+        justify-content: space-between;
+
+        .logo {
+            @include mixins.flex-center;
+
+            img {
+                width: 6.66rem;
+            }
+        }
+
+        .profile {
+            position: relative;
+
+            img {
+                cursor: pointer;
+                @include mixins.flex-center;
+                width: 5.55rem;
+                border-radius: 50%;
+                border: 3px solid transparent;
+                transition: ease-in-out .1s;
+
+                &:hover {
+                    border: 3px solid variables.getColor(neon-blue);
+                    box-shadow: variables.getColor(blur-shadow);
+                }
+            }
+
+            ul {
+                list-style: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 225px;
+                border-radius: .55rem;
+                padding: .777rem;
+                background-color: variables.getColor(bgc);
+                border: .1px solid variables.getColor(text);
+
+                &.active {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translate(0, 0);
+                    transition: .333s ease;
+                }
+
+                &.inactive {
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(-1rem);
+                    transition: .333s ease;
+                }
+
+                li {
+                    margin-bottom: .75rem;
+                    font-size: 1.4rem;
+                    font-weight: 600;
+
+                    &:last-child {
+                        margin-bottom: 0
+                    }
+
+                    >a {
+                        @include mixins.flex-center;
+                        justify-content: start;
+                        border-radius: .75rem;
+                        padding: 1rem;
+                        color: variables.getColor(text);
+                        transition: ease-in-out .111s;
+
+                        &:hover {
+                            text-decoration: underline;
+                            color: variables.getColor(gold);
+                            background-color: variables.getColor(neon-blue);
+                        }
+                    }
+
+                    &.border-bottom {
+                        border-bottom: .1px solid variables.getColor(text);
+                        padding-bottom: .75rem;
+                    }
+
+                    &.border-top {
+                        border-top: .1px solid variables.getColor(text);
+                        padding-top: .75rem;
+                    }
+
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width:1280px) {
+        width: 100%;
+    }
+}

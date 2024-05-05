@@ -1,0 +1,39 @@
+@use 'variables';
+
+html {
+
+    font-size: 62.5%;
+    background-color: variables.getColor(bgc);
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        outline: none;
+        resize: none;
+        text-decoration: none;
+        font-family: "Poppins", sans-serif;
+    }
+
+    img {
+        user-select: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+    }
+
+    button {
+        cursor: pointer;
+        border: none;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+    }
+
+    input[type="date"]::-webkit-calendar-picker-indicator {
+        display: none;
+    }
+
+}

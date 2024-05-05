@@ -1,0 +1,64 @@
+@use '../variables.scss';
+@use '../mixins.scss';
+
+.container-confirm {
+    cursor: default;
+    position: relative;
+    @include mixins.flex-center;
+    max-width: 100vw;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: variables.getColor(bgc);
+    overflow: hidden;
+
+    .top-wave {
+        svg {
+            fill: variables.getColor(neon-blue);
+            position: absolute;
+            top: 0;
+            left: -100%;
+            transform: rotate(175.55deg);
+        }
+    }
+
+    .message {
+        z-index: 1;
+        max-width: 480px;
+        @include mixins.flex-column;
+        gap: 1.11rem;
+        text-align: center;
+        border-radius: 2rem;
+        margin: 0 1rem;
+        padding: 3rem;
+
+        .emote {
+            text-align: center;
+            font-size: 3.33rem;
+            margin-top: -.5rem;
+        }
+
+        >p {
+            font-size: 1.5rem;
+            color: variables.getColor(text);
+
+            a {
+                cursor: pointer !important;
+                @include mixins.special-hover(white, neon-blue, blur-shadow);
+                font-size: 1.75rem;
+                font-weight: bolder;
+                text-decoration: underline;
+                padding: 0 .2rem;
+            }
+        }
+    }
+
+    .bot-wave {
+        svg {
+            fill: variables.getColor(gold);
+            position: absolute;
+            bottom: 0;
+            right: -100%;
+            transform: rotate(355deg);
+        }
+    }
+}

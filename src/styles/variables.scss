@@ -1,0 +1,59 @@
+$colors: (
+    white: white,
+    black: black,
+    grey: #c7c7c7,
+    light-grey: #e9e9e9,
+    darker : #171717,
+    bgc: #f9fafc,
+    bgc-dark-mode: #1b1e23,
+    text: #333,
+    text-dark-mode: white,
+    info-text: #666,
+    info-text-dark-mode: #a3a3a3,
+    neon-blue: #1F51FF,
+    neon-blue-text:rgba(81, 136, 255, 0.75),
+    neon-blue-dark-mode: #0f4f72,
+    bright-yellow: #FFEA00,
+    gold: #FFD700,
+    coral: #F08080,
+    salmon: #FA8072,
+    neon-red: #FF3131,
+    gradient: linear-gradient(to bottom, #1F51FF, #00c6ff),
+    gradient-dark-mode: linear-gradient(to bottom, #0f4f72, #00c6ff),
+    webkit-gradient: -webkit-linear-gradient(to bottom, #1F51FF, #00c6ff),
+    webkit-gradient-dark-mode: -webkit-linear-gradient(to bottom, #0f4f72, #00c6ff),
+    shadow: 0 0 5px rgba(0, 0, 0, .25),
+    bottom-shadow: 0 4px 4px rgba(0, 0, 0, .25),
+    blur-shadow: 0px 8px 16px 0px #5900ff33,
+    blur-shadow-dark-mode: none
+);
+
+$colors-dark-mode: (
+    white: map-get($colors, black),
+    black: map-get($colors, white),
+    bgc: map-get($colors, bgc-dark-mode),
+    text: map-get($colors, text-dark-mode),
+    info-text: map-get($colors, info-text-dark-mode),
+    neon-blue: map-get($colors, neon-blue-text),
+    gradient: map-get($colors, gradient-dark-mode),
+    webkit-gradient: map-get($colors, webkit-gradient-dark-mode),
+    blur-shadow: map-get($colors, blur-shadow-dark-mode)
+);
+
+:root {
+    @each $name, $color in $colors {
+        --color-#{$name}:#{$color};
+    }
+}
+
+@media(prefers-color-scheme: dark) {
+    :root {
+        @each $name, $color in $colors-dark-mode {
+            --color-#{$name}:#{$color};
+        }
+    }
+}
+
+@function getColor($color-name) {
+    @return var(--color-#{$color-name});
+}

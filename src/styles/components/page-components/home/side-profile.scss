@@ -1,0 +1,70 @@
+@use '../../../variables.scss';
+@use '../../../mixins.scss';
+
+.user-detail {
+    max-width: 333px;
+    @include mixins.flex-column;
+    gap: 2rem;
+    text-align: center;
+
+    a {
+        width: 100%;
+
+        &.hover-action {
+            position: relative;
+            border-radius: 50%;
+
+            &::before {
+                content: 'Trocar Foto';
+                display: none;
+                font-size: 1.5rem;
+                position: absolute;
+                bottom: -3.5rem;
+                left: 50%;
+                transform: translateX(-50%);
+                color: variables.getColor(darker);
+                border-radius: .25rem;
+                padding: .5rem;
+                background-color: variables.getColor(grey);
+            }
+
+            >img {
+                border-radius: 50%;
+                width: 256px;
+
+                @media screen and (max-width: 980px) {
+                    width: 200px;
+                }
+            }
+
+            &:hover::before {
+                display: block;
+                pointer-events: none;
+            }
+        }
+
+        >.button {
+            margin: 0;
+        }
+
+    }
+
+    >.info {
+        width: 100%;
+        padding: 0 .5rem;
+
+        >p {
+            font-size: 1.5rem;
+            font-weight: bolder;
+            word-break: break-word;
+            line-height: 1.5rem;
+            color: variables.getColor(neon-blue);
+            border-radius: .5rem;
+            padding: .5rem .5rem;
+        }
+    }
+
+    @media screen and (max-width: 777px) {
+        display: none;
+    }
+}

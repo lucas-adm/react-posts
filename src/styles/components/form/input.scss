@@ -1,0 +1,49 @@
+@use '../../variables.scss';
+@use '../../mixins.scss';
+
+
+.input {
+    @include mixins.flex-column;
+    align-items: flex-start;
+    gap: .5rem;
+    width: 100%;
+    padding: 0 3.2em;
+
+    label {
+        font-size: 1.25rem;
+        color: variables.getColor(text);
+    }
+
+    .input-content {
+        @include mixins.flex-center;
+        width: 100%;
+
+        input {
+            padding: 1rem;
+            width: 100%;
+            border: none;
+            border-radius: .3rem 0 0 .3rem;
+            background-color: variables.getColor(light-grey);
+        }
+
+        img {
+            cursor: pointer;
+            width: 4rem;
+            height: 4rem;
+            padding: .888rem;
+            border-radius: 0 .3rem .3rem 0;
+            background-color: variables.getColor(neon-blue);
+        }
+
+        &.password {
+            margin-top: 1.5rem;
+        }
+
+    }
+
+    .error {
+        font-size: 1.25rem;
+        color: variables.getColor(neon-red);
+    }
+
+}

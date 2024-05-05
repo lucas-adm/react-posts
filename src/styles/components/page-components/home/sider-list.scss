@@ -1,0 +1,41 @@
+@use '../../../variables.scss';
+@use '../../../mixins.scss';
+
+.container-side-users {
+    max-width: min(100%, 333px);
+    width: 100%;
+    @include mixins.flex-column;
+    gap: 2rem;
+
+    >.search-user-posts {
+        >.input {
+            img {
+                cursor: default;
+            }
+        }
+    }
+
+    >.users-list {
+        @include mixins.flex-column;
+        align-items: start;
+        gap: 1rem;
+        padding: 0 3rem;
+
+        >h1 {
+            text-align: center;
+            max-width: 223px;
+            margin: 0 auto;
+            width: 100%;
+            font-size: 1.75rem;
+            color: white;
+            border-radius: .5rem;
+            padding: .5rem 1rem;
+            background-color: variables.getColor(neon-blue);
+        }
+
+    }
+
+    @media screen and (max-width: 1033px) {
+        display: none;
+    }
+}

@@ -1,0 +1,43 @@
+@use '../../variables.scss';
+@use '../../mixins.scss';
+
+.container-apresentation {
+    position: relative;
+    height: 100%;
+    @include mixins.flex-center;
+    overflow: hidden;
+
+    div {
+        min-width: 822px;
+        margin: 0 auto;
+        @include mixins.flex-column;
+
+        h1 {
+            @include mixins.special-hover(neon-blue, gold, shadow);
+            position: absolute;
+            font-weight: bolder;
+            font-size: 3rem;
+            top: 16.66rem;
+            color: variables.getColor(gold);
+        }
+
+    }
+
+    @media screen and (max-width: 1121px) {
+        div {
+            margin-left: 10%;
+        }
+    }
+
+    @media screen and (max-width: 999px) {
+        display: none;
+    }
+
+    @media screen and (max-height: 900px) {
+        div {
+            h1 {
+                top: 13.33rem;
+            }
+        }
+    }
+}

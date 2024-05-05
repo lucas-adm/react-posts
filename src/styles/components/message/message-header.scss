@@ -1,0 +1,27 @@
+@use '../../variables.scss';
+@use '../../mixins.scss';
+
+.msg-header {
+    .logo {
+        @include mixins.flex-column;
+        gap: .5rem;
+        margin-bottom: 1rem;
+
+        img {
+            width: 8.88rem;
+        }
+
+        h1 {
+            @include mixins.special-hover(white, neon-blue, blur-shadow);
+            color: variables.getColor(neon-blue);
+        }
+
+    }
+
+    h1 {
+        font-size: 2.25rem;
+        text-align: center;
+        color: variables.getColor(text);
+        padding: 0 2rem;
+    }
+}

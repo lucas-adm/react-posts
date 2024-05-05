@@ -1,0 +1,30 @@
+@use '../../../variables.scss';
+@use '../../../mixins.scss';
+
+.user-link {
+    width: 100%;
+    border-top: 1px solid variables.getColor(neon-blue);
+
+    &:first-of-type {
+        border-top: none;
+    }
+
+    .user {
+        @include mixins.flex-center;
+        justify-content: start;
+        gap: 1rem;
+        padding-top: 1rem;
+
+        img {
+            width: 5.55rem;
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            line-height: 1.75rem;
+            text-align: start;
+            word-break: break-word;
+            color: variables.getColor(text);
+        }
+    }
+}
