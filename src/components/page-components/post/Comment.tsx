@@ -18,7 +18,7 @@ const Comment = () => {
         <div className="comment">
             <div className="top">
                 <img src="/imgs/logo.png" alt="foto de usuário" />
-                <Link to={'/'}><h1>@KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK</h1></Link>
+                <Link to={'/user/João Embaixadinha'}><h1>@KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK</h1></Link>
                 <p>10 abril,24 18:57</p>
             </div>
             <div className="content">

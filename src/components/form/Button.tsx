@@ -1,14 +1,17 @@
 import '../../styles/components/form/button.scss'
 
 type ButtonProps = {
-    text: string,
-    transparent?: boolean
+    text: string;
+    transparent?: boolean;
+    handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
-const Button: React.FC<ButtonProps> = ({ text, transparent }) => {
+const Button: React.FC<ButtonProps> = ({ text, transparent, handleOnClick }) => {
     return (
         <div className="button">
-            <button className={`${transparent ? 'transparent' : ''}`}>{text}</button>
+            <button className={`${transparent ? 'transparent' : ''}`} onClick={handleOnClick}>
+                {text}
+            </button>
         </div>
     )
 }

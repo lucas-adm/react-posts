@@ -8,6 +8,7 @@
     background: variables.getColor(gradient);
 
     .container-form {
+        z-index: 1;
         max-width: 480px;
         min-width: 330px;
         width: 100%;

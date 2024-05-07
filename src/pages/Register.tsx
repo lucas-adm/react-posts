@@ -5,62 +5,143 @@ import Input from '../components/form/Input'
 import Button from '../components/form/Button'
 import Apresentation from '../components/apresentation/Apresentation'
 
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { FormEvent, useState } from 'react'
+
+import axios from 'axios'
 
 const Register = () => {
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
+  const getAvatar = () => {
+    const randomId = Math.random().toString(36).substring(2);
+    return `https://api.multiavatar.com/${randomId}.svg`;
+  }
+
+  interface FormState {
+    email: string;
+    username: string;
+    password: string;
+    birthDate: string;
+    photo: string;
+  }
+  const [form, setForm] = useState<FormState>({
+    email: "",
+    username: "",
+    password: "",
+    birthDate: "",
+    photo: getAvatar()
+  });
+  const [repeatPassword, setRepeatPassword] = useState<string>("");
+
+  interface ErrorState {
+    email: string;
+    username: string;
+    password: string;
+    birthDate: string;
+  }
+  const [errors, setErrors] = useState<ErrorState>({
+    email: "",
+    username: "",
+    password: "",
+    birthDate: ""
+  });
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors({
+      ...errors,
+      [event.target.name]: ""
+    });
+
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value
+    });
+  };
+
   const navigate = useNavigate();
 
-  const [password, setPassword] = useState("");
-  const [repeatPassword, setRepeatPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const API = import.meta.env.VITE_API;
 
-  function submit(event: FormEvent) {
-    event.preventDefault()
-    if (password != repeatPassword) {
-      setPasswordError("As senhas não combinaram");
+  function submit(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (form.password != repeatPassword) {
+      setErrors({ ...errors, password: "As senhas não combinaram" });
       return;
     }
-    navigate('/confirmation')
+
+    const data = {
+      ...form,
+      birthDate: new Date(form.birthDate)
+    };
+
+    axios.post(`${API}/users/register`, data)
+      .then(() => navigate('/confirmation'))
+      .catch((error) => {
+        if (error.response && error.response.data) {
+
+          const serverErrors = error.response.data;
+
+          if (typeof serverErrors === 'string') {
+            setErrors({ ...errors, email: serverErrors, username: serverErrors });
+          }
+
+          if (Array.isArray(serverErrors)) {
+            serverErrors.forEach(err => {
+              setErrors(errors => ({
+                ...errors,
+                [err.field]: err.message
+              }));
+            });
+          }
+
+        }
+      });
+
   }
 
   return (
     <div className="container-register">
-      <form action="" onSubmit={submit} className="container-form">
+      <form className="container-form" onSubmit={submit} >
         <MessageHeader text="Registre-se e aproveite!" />
         <Input
           name="email"
           label="Email"
           type="text"
           placeholder="exemplo@email.com"
-          image='/svgs/mail.svg' />
+          image='/svgs/mail.svg'
+          handleOnChange={handleInputChange}
+          error={errors.email} />
         <Input
-          name="nascimento"
+          name="birthDate"
           label="Data de nascimento"
           type="date"
-          image='/svgs/cake.svg' />
+          image='/svgs/cake.svg'
+          handleOnChange={handleInputChange}
+          error={errors.birthDate} />
         <Input
           name="username"
           label="Nome de usuário - max 33 letras"
           type="text"
           placeholder="João Embaixadinha"
-          image='/svgs/username.svg' />
+          image='/svgs/username.svg'
+          handleOnChange={handleInputChange}
+          error={errors.username} />
         <Input
           name="password"
           label="Senha - min 4 letras"
           type={`${showPassword ? 'text' : 'password'}`}
           placeholder="Senha"
           image={`${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`}
-          handleOnChange={(e) => setPassword(e.target.value)}
+          handleOnChange={handleInputChange}
           handleOnClick={toggleShowPassword}
-          error={passwordError}
+          error={errors.password}
           repeat={{
             name: "repeat",
             type: `${showPassword ? 'text' : 'password'}`,
@@ -68,7 +149,7 @@ const Register = () => {
             image: `${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`,
             handleOnChange: (e) => setRepeatPassword(e.target.value),
             handleOnClick: toggleShowPassword,
-            error: passwordError
+            error: errors.password
           }} />
         <Button text="Registrar" />
       </form>

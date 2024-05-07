@@ -25,6 +25,10 @@ const Header = () => {
         }
     });
 
+    const logout = () => {
+        localStorage.removeItem('token');
+    }
+
     return (
         <header>
             <nav>
@@ -40,7 +44,7 @@ const Header = () => {
                         <li><Link to={'/user/photo'}>Trocar foto</Link></li>
                         <li><Link to={'/user/edit'}>Editar informações</Link></li>
                         <li><Link to={'/user/delete'}>Deletar conta</Link></li>
-                        <li className="border-top"><Link to={'/'}>Desconectar</Link></li>
+                        <li className="border-top" onClick={logout}><Link to={'/'} >Desconectar</Link></li>
                     </ul>
                 </div>
             </nav>

@@ -13,16 +13,17 @@ import Register from './pages/Register.tsx'
 import Confirmation from './pages/Confirmation.tsx'
 import Greetings from './pages/Greetings.tsx'
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
 import UserEdit from './components/page-components/user/UserEdit.tsx'
 import UserPhoto from './components/page-components/user/UserPhoto.tsx'
 import UserDelete from './components/page-components/user/UserDelete.tsx'
 
+import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import Auth from './auth.tsx'
+
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <Auth><App /></Auth>,
     errorElement: <NotFound />,
     children: [
       {
@@ -66,7 +67,7 @@ const router = createBrowserRouter([
   {
     path: '/greetings',
     element: <Greetings />
-  },
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

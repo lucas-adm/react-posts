@@ -6,7 +6,8 @@ import Button from '../components/form/Button'
 import Apresentation from '../components/apresentation/Apresentation'
 
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import axios from 'axios'
 
 const Login = () => {
 
@@ -16,16 +17,105 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
+  interface FormState {
+    username: string,
+    password: string
+  }
+  const [form, setForm] = useState<FormState>({
+    username: "",
+    password: ""
+  });
+
+  interface ErrorState {
+    username: string,
+    password: string
+  }
+  const [errors, setErrors] = useState<ErrorState>({
+    username: "",
+    password: ""
+  })
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors({
+      ...errors,
+      [event.target.name]: ""
+    });
+
+    setForm({
+      ...form,
+      [event.target.name]: event.target.value
+    });
+  }
+
+  const navigate = useNavigate();
+
+  const API = import.meta.env.VITE_API;
+
+  const submit = (event: React.FormEvent) => {
+
+    event.preventDefault();
+
+    const data = {
+      ...form
+    }
+
+    axios.post(`${API}/users/login`, data)
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+        navigate('/');
+      })
+      .catch((error) => {
+
+        if (error.response && error.response.data) {
+          const serverErrors = error.response.data;
+
+          if (typeof serverErrors === 'string') {
+            setErrors({ ...errors, password: serverErrors });
+          }
+
+          if (Array.isArray(serverErrors)) {
+            serverErrors.forEach(err => {
+              setErrors(errors => ({
+                ...errors,
+                [err.field]: err.message
+              }));
+            });
+          }
+        }
+
+        if (error.response.status === 404) {
+          setErrors({ ...errors, username: "User not found." })
+        }
+
+      })
+  }
+
+  const asGuest = () => {
+    const data = {
+      ...form,
+      username: "demo",
+      password: "Senha123"
+    }
+
+    axios.post(`${API}/users/login`, data)
+      .then((response) => {
+        localStorage.setItem('token', response.data.token);
+        navigate('/');
+      })
+  }
+
   return (
     <div className="container-login">
-      <form action="" className="container-form">
+      <form className="container-form" onSubmit={submit}>
         <MessageHeader text="" />
         <Input
           name="username"
           label="Nome de usuário"
           type="text"
           placeholder="João Embaixadinha"
-          image='/svgs/username.svg' />
+          image='/svgs/username.svg'
+          handleOnChange={handleInputChange}
+          error={errors.username} />
         <Input
           name="password"
           label="Senha"
@@ -33,10 +123,11 @@ const Login = () => {
           placeholder="Senha"
           image={`${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`}
           handleOnClick={toggleShowPassword}
-        />
-        <Link to={'/'}><Button text="Login" /></Link>
+          handleOnChange={handleInputChange}
+          error={errors.password} />
+        <Button text="Login" />
         <div className="or"><h2>ou</h2></div>
-        <Link to={'/'}><Button text="Entrar como visitante" transparent /></Link>
+        <Button text="Entrar como visitante" transparent handleOnClick={asGuest} />
         <Link to={'/register'}><Button text="Criar conta" transparent /></Link>
       </form>
       <Apresentation />
