@@ -4,16 +4,31 @@ import Input from '../../form/Input'
 import Button from '../../form/Button'
 import UserIndex from '../user/UserIndex'
 
-import { useNavigate } from 'react-router-dom'
-import { FormEvent } from 'react'
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
+interface UserState {
+    username: string;
+    photo: string;
+}
 
 const SideList = () => {
 
-    const navigate = useNavigate();
-    function submit(event: FormEvent) {
+    const [users, setUsers] = useState<UserState[]>([])
+
+    useEffect(() => {
+        axios.get(`${API}/users`)
+            .then(response => {
+                setUsers(response.data);
+            })
+            .catch(error => console.error(error));
+    }, []);
+
+    function submit(event: React.FormEvent) {
         event.preventDefault()
-        navigate('/user/João Embaixadinha')
     }
+
+    const API = import.meta.env.VITE_API;
 
     return (
         <div className="container-side-users">
@@ -29,8 +44,9 @@ const SideList = () => {
             </form>
             <div className="users-list">
                 <h1>Outros usuários:</h1>
-                <UserIndex username="@João Embaixadinha" />
-                <UserIndex username='@KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK' />
+                {users.map(user => (
+                    <UserIndex username={user.username} photo={user.photo} />
+                ))}
             </div>
         </div>
     )

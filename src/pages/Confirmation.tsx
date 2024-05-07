@@ -15,7 +15,7 @@ const Confirmation = () => {
         <p>Uma mensagem de confirmação foi enviada à seu email de cadastro.</p>
         <img src="/svgs/mail.svg" alt="Mail SVG" />
         <p>Ative sua conta para começar a gerar intrigas!</p>
-        <p>É possível realizar o login sem ativar a conta, mas não estará permitido a interagir com os usuários.</p>
+        <p>É necessário ativar a conta para realizar o login, caso contrário entre como convidado.</p>
       </div>
       <div className="bot-wave">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">

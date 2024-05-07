@@ -1,14 +1,13 @@
-import '../../../styles/components/page-components/user/user-delete.scss';
+import '../styles/pages/validate.scss';
 
-import Input from "../../form/Input";
-import Button from "../../form/Button";
+import Input from '../components/form/Input';
+import Button from '../components/form/Button';
 
-import { useUser } from '../../../context/UserProvider';
+import { useUser } from '../context/UserProvider';
 import { useState, FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios';
 
-const DeleteAccount = () => {
+const Validate = () => {
 
     const user = useUser();
     const storaged: string | null = sessionStorage.getItem('password')
@@ -24,29 +23,13 @@ const DeleteAccount = () => {
 
     const navigate = useNavigate();
 
-    const API = import.meta.env.VITE_API;
-
-    const token = localStorage.getItem('token');
-
     function submit(event: FormEvent) {
         event.preventDefault()
-
         if (password != storaged) {
             setPasswordError("Senha incorreta.");
             return;
         }
-
-        axios.delete(`${API}/users/${user?.id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-            .then(() => {
-                sessionStorage.removeItem('password');
-                localStorage.removeItem('token');
-                navigate('/')
-            })
-            .catch(error => console.log(error))
+        navigate('/user/edit')
     }
 
     return (
@@ -64,11 +47,11 @@ const DeleteAccount = () => {
                         handleOnChange={(e) => setPassword(e.target.value)}
                         handleOnClick={toggleShowPassword}
                         error={passwordError} />
-                    <Button text="Deletar" transparent />
+                    <Button text="Prosseguir" />
                 </form>
             </div>
         </div>
     )
 }
 
-export default DeleteAccount
+export default Validate

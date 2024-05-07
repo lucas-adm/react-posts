@@ -50,7 +50,7 @@
 
             .infos {
                 @include mixins.flex-center;
-                gap: 2rem;
+                gap: 1rem;
 
                 @media screen and (max-width:500px) {
                     @include mixins.flex-column;

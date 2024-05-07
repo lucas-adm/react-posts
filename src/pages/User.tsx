@@ -2,20 +2,44 @@ import '../styles/pages/user.scss';
 
 import Posts from "../components/page-components/post/Posts"
 
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 const User = () => {
+
+  const [user, setUser] = useState({
+    username: "",
+    photo: "",
+    birthDate: ""
+  })
+
+  const param = useParams();
+  const username = param.username;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const API = import.meta.env.VITE_API;
+    axios.get(`${API}/users/${username}`)
+      .then(response => {
+        setUser(response.data)
+      })
+      .catch(() => navigate('/404'))
+  }, [])
+
   return (
     <div className="container-user-page">
       <div className="container-user">
-        <img src="/imgs/logo.png" alt="foto de perfil do usuário" />
+        <img src={user.photo} alt={`Foto do ${user.username}`} />
         <div className="user-info">
-          <h1>@João Embaixadinha</h1>
+          <h1>@{user.username}</h1>
           <div className="infos">
             <div className="user-email">
-              <h2>email@example.com</h2>
             </div>
             <div className="user-birthdate">
               <img src="/svgs/cake.svg" alt="ícone de bolo de aniversário" />
-              <h2>2002/06/22</h2>
+              <h2>{user.birthDate}</h2>
             </div>
           </div>
         </div>

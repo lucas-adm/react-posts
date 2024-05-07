@@ -8,7 +8,6 @@ import { ChangeEvent, useState } from 'react';
 
 const Home = () => {
 
-
   const [isFull, setIsFull] = useState(false);
 
   const count = (event: ChangeEvent<HTMLTextAreaElement>) => {

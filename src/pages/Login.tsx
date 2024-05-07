@@ -9,6 +9,16 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import axios from 'axios'
 
+interface FormState {
+  username: string,
+  password: string
+}
+
+interface ErrorState {
+  username: string,
+  password: string
+}
+
 const Login = () => {
 
   const [showPassword, setShowPassword] = useState(false);
@@ -17,19 +27,11 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-  interface FormState {
-    username: string,
-    password: string
-  }
   const [form, setForm] = useState<FormState>({
     username: "",
     password: ""
   });
 
-  interface ErrorState {
-    username: string,
-    password: string
-  }
   const [errors, setErrors] = useState<ErrorState>({
     username: "",
     password: ""
@@ -62,6 +64,7 @@ const Login = () => {
     axios.post(`${API}/users/login`, data)
       .then((response) => {
         localStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('password', form.password);
         navigate('/');
       })
       .catch((error) => {

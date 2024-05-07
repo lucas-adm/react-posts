@@ -3,10 +3,29 @@ import '../../../styles/components/page-components/user/user-edit.scss';
 import Input from "../../form/Input"
 import Button from "../../form/Button"
 
+import { useUser } from '../../../context/UserProvider';
+
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useState, FormEvent } from "react";
+import axios from 'axios';
+
+interface FormState {
+    newEmail: string;
+    newUsername: string;
+    newPassword: string;
+    newBirthDate: string;
+}
+
+interface ErrorState {
+    newEmail: string;
+    newUsername: string;
+    newPassword: string;
+    newBirthDate: string;
+}
 
 const Edit = () => {
+
+    const user = useUser();
 
     const [showPassword, setShowPassword] = useState(false);
 
@@ -14,53 +33,127 @@ const Edit = () => {
         setShowPassword(!showPassword);
     };
 
+    const password: string | null = sessionStorage.getItem('password');
+
+    const [form, setForm] = useState<FormState>({
+        newEmail: user?.email ? user?.email : "",
+        newUsername: user?.username ? user?.username : "",
+        newPassword: password ? password : "",
+        newBirthDate: "",
+    });
+    const [repeatPassword, setRepeatPassword] = useState<string>("");
+
+    const [errors, setErrors] = useState<ErrorState>({
+        newEmail: "",
+        newUsername: "",
+        newPassword: "",
+        newBirthDate: ""
+    });
+
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setForm({
+            ...form,
+            [event.target.name]: event.target.value
+        });
+
+        setErrors({
+            ...errors,
+            [event.target.name]: ""
+        });
+    };
+
     const navigate = useNavigate();
 
-    const [password, setPassword] = useState("");
-    const [repeatPassword, setRepeatPassword] = useState("");
-    const [passwordError, setPasswordError] = useState("");
+    const API = import.meta.env.VITE_API;
 
-    function submit(event: FormEvent) {
-        event.preventDefault()
-        if (password != repeatPassword) {
-            setPasswordError("As senhas não combinaram");
+    const token = localStorage.getItem('token');
+
+    function submit(event: React.FormEvent) {
+        event.preventDefault();
+
+        if (form.newPassword != repeatPassword) {
+            setErrors({ ...errors, newPassword: "As senhas não combinaram" });
             return;
         }
-        navigate('/user/João Embaixadinha')
+
+        const data = {
+            ...form,
+            birthDate: new Date(form.newBirthDate)
+        };
+
+        axios.put(`${API}/users/edit/${user?.id}`, data, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+            .then(() => {
+                localStorage.removeItem('token')
+                navigate('/login')
+            })
+            .catch((error) => {
+                if (error.response && error.response.data) {
+
+                    const serverErrors = error.response.data;
+
+                    if (typeof serverErrors === 'string') {
+                        setErrors({ ...errors, newEmail: serverErrors, newUsername: serverErrors });
+                    }
+
+                    if (Array.isArray(serverErrors)) {
+                        serverErrors.forEach(err => {
+                            setErrors(errors => ({
+                                ...errors,
+                                [err.field]: err.message
+                            }));
+                        });
+                    }
+
+                }
+            });
+
     }
 
     return (
         <div className="container-edit-page">
             <div className="container-edit">
-                <img src="/imgs/logo.png" alt="foto de perfil do usuário" />
-                <h1>@João Embaixadinha</h1>
+                <img src={user?.photo} alt={`Foto de perfil do ${user?.username}`} />
+                <h1>@{user?.username}</h1>
                 <form className="edit-form" onSubmit={submit}>
                     <Input
-                        name="email"
-                        label="Email"
+                        name="newEmail"
+                        label="Novo email"
                         type="text"
                         placeholder="exemplo@email.com"
-                        image='/svgs/mail.svg' />
+                        value={form.newEmail}
+                        image='/svgs/mail.svg'
+                        handleOnChange={handleInputChange}
+                        error={errors.newEmail} />
                     <Input
-                        name="nascimento"
-                        label="Data de nascimento"
+                        name="newBirthDate"
+                        label="Nova data de nascimento"
                         type="date"
-                        image='/svgs/cake.svg' />
+                        image='/svgs/cake.svg'
+                        handleOnChange={handleInputChange}
+                        error={errors.newBirthDate} />
                     <Input
-                        name="username"
-                        label="Nome de usuário - max 33 letras"
+                        name="newUsername"
+                        label="Novo nome de usuário - max 33 letras"
                         type="text"
                         placeholder="João Embaixadinha"
-                        image='/svgs/username.svg' />
+                        value={form.newUsername}
+                        image='/svgs/username.svg'
+                        handleOnChange={handleInputChange}
+                        error={errors.newUsername} />
                     <Input
-                        name="password"
-                        label="Senha - min 4 letras"
+                        name="newPassword"
+                        label="Nova senha - min 4, max 33 letras"
                         type={`${showPassword ? 'text' : 'password'}`}
                         placeholder="Senha"
+                        value={form.newPassword}
                         image={`${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`}
-                        handleOnChange={(e) => setPassword(e.target.value)}
+                        handleOnChange={handleInputChange}
                         handleOnClick={toggleShowPassword}
-                        error={passwordError}
+                        error={errors.newPassword}
                         repeat={{
                             name: "repeat",
                             type: `${showPassword ? 'text' : 'password'}`,
@@ -68,9 +161,9 @@ const Edit = () => {
                             image: `${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`,
                             handleOnChange: (e) => setRepeatPassword(e.target.value),
                             handleOnClick: toggleShowPassword,
-                            error: passwordError
+                            error: errors.newPassword
                         }} />
-                    <Button text="Salvar" />
+                    <Button text="Editar" />
                 </form>
             </div>
         </div>

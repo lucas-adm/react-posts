@@ -1,9 +1,12 @@
 import '../styles/components/header.scss';
 
-import { Link } from 'react-router-dom';
+import { useUser } from '../context/UserProvider';
 import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
+
+    const user = useUser();
 
     const [open, setOpen] = useState(false);
 
@@ -38,11 +41,11 @@ const Header = () => {
                     </div>
                 </Link>
                 <div className="profile" ref={menuRef}>
-                    <img src="/imgs/logo.png" alt="Posts logo" onClick={openMenu} />
+                    <img src={user?.photo} alt="Posts logo" onClick={openMenu} />
                     <ul className={`${open ? 'active' : 'inactive'}`}>
-                        <li className="border-bottom"><Link to={'/user/João Embaixadinha'}>@João Embaixadinha</Link></li>
+                        <li className="border-bottom"><Link to={`/user/${user?.username}`}>{user?.username}</Link></li>
                         <li><Link to={'/user/photo'}>Trocar foto</Link></li>
-                        <li><Link to={'/user/edit'}>Editar informações</Link></li>
+                        <li><Link to={'/validate'}>Editar informações</Link></li>
                         <li><Link to={'/user/delete'}>Deletar conta</Link></li>
                         <li className="border-top" onClick={logout}><Link to={'/'} >Desconectar</Link></li>
                     </ul>

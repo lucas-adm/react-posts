@@ -10,6 +10,21 @@ import { useNavigate } from 'react-router-dom'
 
 import axios from 'axios'
 
+interface FormState {
+  email: string;
+  username: string;
+  password: string;
+  birthDate: string;
+  photo: string;
+}
+
+interface ErrorState {
+  email: string;
+  username: string;
+  password: string;
+  birthDate: string;
+}
+
 const Register = () => {
 
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -23,13 +38,6 @@ const Register = () => {
     return `https://api.multiavatar.com/${randomId}.svg`;
   }
 
-  interface FormState {
-    email: string;
-    username: string;
-    password: string;
-    birthDate: string;
-    photo: string;
-  }
   const [form, setForm] = useState<FormState>({
     email: "",
     username: "",
@@ -39,12 +47,6 @@ const Register = () => {
   });
   const [repeatPassword, setRepeatPassword] = useState<string>("");
 
-  interface ErrorState {
-    email: string;
-    username: string;
-    password: string;
-    birthDate: string;
-  }
   const [errors, setErrors] = useState<ErrorState>({
     email: "",
     username: "",
@@ -53,14 +55,14 @@ const Register = () => {
   });
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setErrors({
-      ...errors,
-      [event.target.name]: ""
-    });
-
     setForm({
       ...form,
       [event.target.name]: event.target.value
+    });
+
+    setErrors({
+      ...errors,
+      [event.target.name]: ""
     });
   };
 
@@ -82,7 +84,7 @@ const Register = () => {
     };
 
     axios.post(`${API}/users/register`, data)
-      .then(() => navigate('/confirmation'))
+      .then(() => navigate('/login'))
       .catch((error) => {
         if (error.response && error.response.data) {
 

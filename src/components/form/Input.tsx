@@ -5,6 +5,7 @@ type InputProps = {
     label: string;
     type: string;
     placeholder?: string;
+    value?: string;
     image: string;
     handleOnChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -13,6 +14,7 @@ type InputProps = {
         name: string;
         type: string;
         placeholder: string;
+        value?: string;
         image: string;
         handleOnChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
         handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
@@ -20,12 +22,12 @@ type InputProps = {
     };
 };
 
-const Input: React.FC<InputProps> = ({ name, label, type, placeholder, image, handleOnChange, handleOnClick, error, repeat }) => {
+const Input: React.FC<InputProps> = ({ name, label, type, placeholder, value, image, handleOnChange, handleOnClick, error, repeat }) => {
     return (
         <div className="input">
             <label htmlFor={name}>{label}</label>
             <div className="input-content">
-                <input required name={name} type={type} placeholder={placeholder} onChange={handleOnChange} />
+                <input required name={name} type={type} placeholder={placeholder} value={value} onChange={handleOnChange} />
                 <img src={image} alt="imagem do input" onClick={handleOnClick} />
             </div>
             {error && <div className="error">{error}</div>}
