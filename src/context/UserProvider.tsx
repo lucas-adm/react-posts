@@ -1,4 +1,5 @@
-import React, { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { createContext, useState, useEffect, useContext, ReactNode } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import axios from 'axios';
 
@@ -8,6 +9,7 @@ interface User {
     username: string;
     photo: string;
     birthDate: string;
+    role: string;
 }
 
 interface ProtectedRouteProps {
@@ -17,7 +19,10 @@ interface ProtectedRouteProps {
 export const UserContext = createContext<User | null>(null);
 
 export const UserProvider: React.FC<ProtectedRouteProps> = ({ children }) => {
+
     const [user, setUser] = useState<User | null>(null);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -30,8 +35,8 @@ export const UserProvider: React.FC<ProtectedRouteProps> = ({ children }) => {
                 .then((response) => {
                     setUser(response.data)
                 })
-                .catch((error) => {
-                    console.log(error);
+                .catch(() => {
+                    navigate('/');
                 })
         }
     }, [])

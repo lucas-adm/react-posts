@@ -6,7 +6,9 @@ import App from './App.tsx'
 import NotFound from './pages/NotFound.tsx'
 import Home from './pages/Home.tsx'
 import User from './pages/User.tsx'
+import Users from './pages/Users.tsx'
 import Post from './pages/Post.tsx'
+import Search from './pages/Search.tsx'
 
 import Login from './pages/Login.tsx'
 import Register from './pages/Register.tsx'
@@ -14,7 +16,6 @@ import Confirmation from './pages/Confirmation.tsx'
 import Greetings from './pages/Greetings.tsx'
 
 import UserPhoto from './components/page-components/user/UserPhoto.tsx'
-import Validate from './pages/Validate.tsx'
 import UserEdit from './components/page-components/user/UserEdit.tsx'
 import UserDelete from './components/page-components/user/UserDelete.tsx'
 
@@ -37,8 +38,8 @@ const router = createBrowserRouter([
         element: <User />,
       },
       {
-        path: '/validate',
-        element: <Validate />
+        path: '/users',
+        element: <Users />,
       },
       {
         path: '/user/edit',
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
       {
         path: '/post/:id',
         element: <Post />
+      },
+      {
+        path: '/posts/:username',
+        element: <Search />
       }
     ]
   },

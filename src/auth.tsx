@@ -11,15 +11,17 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
+
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
+    const sessionToken = sessionStorage.getItem('token');
     let isAuthenticated = false;
 
     if (token) {
         const decodedToken = jwtDecode<DecodedToken>(token);
         const currentTime = Date.now() / 1000;
 
-        if (decodedToken.exp > currentTime) {
+        if (decodedToken.exp > currentTime || sessionToken) {
             isAuthenticated = true;
         }
     }
@@ -30,7 +32,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         }
     }, [isAuthenticated, navigate]);
 
-    if (!isAuthenticated) {
+    if (!isAuthenticated) { 
         return null;
     }
 
