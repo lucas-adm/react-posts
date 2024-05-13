@@ -1,6 +1,7 @@
 import '../styles/pages/user.scss';
 
-import Posts from "../components/page-components/post/Posts"
+import UserPosts from '../components/page-components/user/UserPosts';
+import SVGButton from '../components/action/SVGButton';
 
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -15,7 +16,10 @@ const User = () => {
   })
 
   const param = useParams();
+
   const username = param.username;
+
+  const [notFound, setNotFound] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -24,27 +28,44 @@ const User = () => {
     axios.get(`${API}/users/${username}`)
       .then(response => {
         setUser(response.data)
+        setNotFound(false);
       })
-      .catch(() => navigate('/404'))
-  }, [])
+      .catch((error) => {
+        error.response.status === 404 ? setNotFound(true) : setNotFound(false);
+      })
+  }, [username])
+
+  const goBack = () => {
+    navigate('/');
+  }
 
   return (
     <div className="container-user-page">
       <div className="container-user">
-        <img src={user.photo} alt={`Foto do ${user.username}`} />
-        <div className="user-info">
-          <h1>@{user.username}</h1>
-          <div className="infos">
-            <div className="user-email">
+        <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
+        {!notFound ?
+          <>
+            <img src={user.photo} alt={`Foto do ${user.username}`} />
+            <div className="user-info">
+              <h1>@{user.username}</h1>
+              <div className="infos">
+                <div className="user-email">
+                </div>
+                <div className="user-birthdate">
+                  <img src="/svgs/cake.svg" alt="ícone de bolo de aniversário" />
+                  <h2>{user.birthDate}</h2>
+                </div>
+              </div>
             </div>
-            <div className="user-birthdate">
-              <img src="/svgs/cake.svg" alt="ícone de bolo de aniversário" />
-              <h2>{user.birthDate}</h2>
+          </> :
+          <>
+            <img src="/svgs/anonymous.svg" alt="Usuário não encontrado" />
+            <div className="user-info">
+              <h1 className="none">Não registrado ou excluído</h1>
             </div>
-          </div>
-        </div>
+          </>}
       </div>
-      <Posts />
+      <UserPosts param={username} />
     </div>
   )
 }

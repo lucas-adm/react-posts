@@ -2,30 +2,48 @@ import '../styles/pages/home.scss';
 
 import SideProfile from '../components/page-components/home/SideProfile';
 import SideUsers from '../components/page-components/home/SideList';
+import Textarea from '../components/form/Textarea';
 import Posts from '../components/page-components/post/Posts';
 
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 
 const Home = () => {
 
-  const [isFull, setIsFull] = useState(false);
+  const API = import.meta.env.VITE_API;
+  const token = localStorage.getItem('token');
 
-  const count = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setIsFull(event.target.value.length === 255);
+  const [text, setText] = useState("");
+
+  const [error, setError] = useState("");
+
+  const handleTextarea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setError("");
+    setText(event.target.value);
+  }
+
+  const [key, setKey] = useState(0);
+
+  const post = () => {
+    axios.post(`${API}/posts`, { text: text }, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    }).then(() => {
+      setKey(prevKey => prevKey + 1);
+      setText("");
+    })
+      .catch(() => {
+        setError("ué");
+      })
   }
 
   return (
     <main className="container-home">
       <SideProfile />
       <div className="container-center">
-        <div className="create-post">
-          <textarea maxLength={255} placeholder="No que cê tá pensano?" onChange={count} />
-          <div className="new-post">
-            <p>{`${isFull ? 'Limite de 255 caracteres.' : ''}`}</p>
-            <button>Post</button>
-          </div>
-        </div>
-        <Posts />
+        <Textarea action="Post" error={error} handleOnChange={handleTextarea} handleOnClick={post} />
+        <Posts key={key} />
       </div>
       <SideUsers />
     </main >

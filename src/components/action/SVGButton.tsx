@@ -1,20 +1,29 @@
 import '../../styles/components/action/svg-button.scss';
 
 type SVGButtonProps = {
-    border?: boolean,
-    spacing?: boolean,
-    path: string,
-    number?: string,
-    text?: string,
-    handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void
+    border?: boolean;
+    spacing?: boolean;
+    path?: string;
+    number?: number | string | Array;
+    text?: string;
+    handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };
 
 const SVGButton: React.FC<SVGButtonProps> = ({ border, spacing, path, number, text, handleOnClick }) => {
     return (
-        <div className={`${spacing ? 'spacing' : ''} svg-button`}>
+        <div className={`svg-button ${spacing ? 'spacing' : ''}`}>
             <button className={`${border ? 'border' : ''}`} onClick={handleOnClick}>
-                <img src={path} alt="botão de ação" />
-                <p>{number} {text}</p>
+                {path ? (
+                    <>
+                        <img src={path} alt="botão de ação" />
+                        <p>{number} {text}</p>
+                    </>
+                ) :
+                    <>
+                        <>
+                            <p>{text}</p>
+                        </>
+                    </>}
             </button>
         </div>
     )

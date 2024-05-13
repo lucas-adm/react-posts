@@ -14,7 +14,7 @@ const Greetings = () => {
       </div>
       <div className="message">
         <MessageHeader text="Conta ativada!" />
-        <p>Agradecemos pela confirmação de email!</p>
+        <p>Agradecemos pela confirmação do email!</p>
         <div className="emote">🎉🎉🎉</div>
         <p>Nossa única regra é não seguir outras regras.</p>
         <p>Para acessar o site basta realizar <Link to={'/login'}>login.</Link></p>

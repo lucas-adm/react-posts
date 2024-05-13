@@ -53,7 +53,11 @@ const Login = () => {
 
   const API = import.meta.env.VITE_API;
 
+  const [requesting, setRequesting] = useState<boolean>(false);
+
   const submit = (event: React.FormEvent) => {
+
+    setRequesting(true);
 
     event.preventDefault();
 
@@ -63,12 +67,14 @@ const Login = () => {
 
     axios.post(`${API}/users/login`, data)
       .then((response) => {
+        setRequesting(false);
         localStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('token', response.data.token);
         sessionStorage.setItem('password', form.password);
         navigate('/');
       })
       .catch((error) => {
-
+        setRequesting(false);
         if (error.response && error.response.data) {
           const serverErrors = error.response.data;
 
@@ -96,13 +102,17 @@ const Login = () => {
   const asGuest = () => {
     const data = {
       ...form,
-      username: "demo",
-      password: "Senha123"
+      username: "Demo",
+      password: "3Tres"
     }
+
+    setRequesting(true);
 
     axios.post(`${API}/users/login`, data)
       .then((response) => {
+        setRequesting(false);
         localStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('token', response.data.token);
         navigate('/');
       })
   }
@@ -128,9 +138,9 @@ const Login = () => {
           handleOnClick={toggleShowPassword}
           handleOnChange={handleInputChange}
           error={errors.password} />
-        <Button text="Login" />
+        <Button text={!requesting ? "Login" : "Logando..."} />
         <div className="or"><h2>ou</h2></div>
-        <Button text="Entrar como visitante" transparent handleOnClick={asGuest} />
+        <Button text={!requesting ? "Entrar como visitante" : "Logando..."} transparent handleOnClick={asGuest} />
         <Link to={'/register'}><Button text="Criar conta" transparent /></Link>
       </form>
       <Apresentation />

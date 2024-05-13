@@ -41,14 +41,26 @@ const Header = () => {
                     </div>
                 </Link>
                 <div className="profile" ref={menuRef}>
-                    <img src={user?.photo} alt="Posts logo" onClick={openMenu} />
-                    <ul className={`${open ? 'active' : 'inactive'}`}>
-                        <li className="border-bottom"><Link to={`/user/${user?.username}`}>{user?.username}</Link></li>
-                        <li><Link to={'/user/photo'}>Trocar foto</Link></li>
-                        <li><Link to={'/validate'}>Editar informações</Link></li>
-                        <li><Link to={'/user/delete'}>Deletar conta</Link></li>
-                        <li className="border-top" onClick={logout}><Link to={'/'} >Desconectar</Link></li>
-                    </ul>
+                    {user?.username !== "Demo" ?
+                        <>
+                            <img src={user?.photo} alt="Posts logo" onClick={openMenu} />
+                            <ul className={`${open ? 'active' : 'inactive'}`}>
+                                <li className="border-bottom"><Link to={`/user/${user?.username}`}>{user?.username}</Link></li>
+                                <li><Link to={'/user/photo'}>Trocar foto</Link></li>
+                                <li><Link to={'/user/edit'}>Editar informações</Link></li>
+                                <li><Link to={'/user/delete'}>Deletar conta</Link></li>
+                                <li className="border-top" onClick={logout}><Link to={'/'} >Desconectar</Link></li>
+                            </ul>
+                        </> :
+                        <>
+                            <img src={user?.photo} alt="Posts logo" onClick={openMenu} />
+                            <ul className={`${open ? 'active' : 'inactive'}`}>
+                                <li className="border-bottom"><Link to={`/user/${user?.username}`}>{user?.username}</Link></li>
+                                <li><Link to={'/register'}>Criar conta</Link></li>
+                                <li className="border-top" onClick={logout}><Link to={'/'} >Desconectar</Link></li>
+                            </ul>
+                        </>
+                    }
                 </div>
             </nav>
         </header>

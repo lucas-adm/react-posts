@@ -12,7 +12,7 @@ const Confirmation = () => {
       </div>
       <div className="message">
         <MessageHeader text="Ative sua conta!" />
-        <p>Uma mensagem de confirmação foi enviada à seu email de cadastro.</p>
+        <p>Uma mensagem de confirmação foi enviada ao seu email de cadastro.</p>
         <img src="/svgs/mail.svg" alt="Mail SVG" />
         <p>Ative sua conta para começar a gerar intrigas!</p>
         <p>É necessário ativar a conta para realizar o login, caso contrário entre como convidado.</p>

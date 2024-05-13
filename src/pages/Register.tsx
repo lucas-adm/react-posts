@@ -70,8 +70,12 @@ const Register = () => {
 
   const API = import.meta.env.VITE_API;
 
+  const [requesting, setRequesting] = useState<boolean>(false);
+
   function submit(event: React.FormEvent) {
     event.preventDefault();
+
+    setRequesting(true);
 
     if (form.password != repeatPassword) {
       setErrors({ ...errors, password: "As senhas não combinaram" });
@@ -84,14 +88,20 @@ const Register = () => {
     };
 
     axios.post(`${API}/users/register`, data)
-      .then(() => navigate('/login'))
+      .then(() => {
+        setRequesting(false);
+        navigate('/confirmation')
+      })
       .catch((error) => {
+        setRequesting(false);
         if (error.response && error.response.data) {
 
           const serverErrors = error.response.data;
 
           if (typeof serverErrors === 'string') {
-            setErrors({ ...errors, email: serverErrors, username: serverErrors });
+            serverErrors === "Email already exists." && (setErrors({ ...errors, email: serverErrors, username: "" }));
+            serverErrors === "Username already exists." && (setErrors({ ...errors, email: "", username: serverErrors }));
+            serverErrors === "Email or username are unavailable." && (setErrors({ ...errors, email: serverErrors, username: serverErrors }));
           }
 
           if (Array.isArray(serverErrors)) {
@@ -153,7 +163,7 @@ const Register = () => {
             handleOnClick: toggleShowPassword,
             error: errors.password
           }} />
-        <Button text="Registrar" />
+        <Button text={!requesting ? "Registrar" : "Registrando..."} />
       </form>
       <Apresentation />
     </div>
