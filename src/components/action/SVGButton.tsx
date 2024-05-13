@@ -4,7 +4,7 @@ type SVGButtonProps = {
     border?: boolean;
     spacing?: boolean;
     path?: string;
-    number?: number | string | Array;
+    number?: number | string | Array<any>;
     text?: string;
     handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
 };

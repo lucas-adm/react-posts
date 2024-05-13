@@ -14,6 +14,26 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+type PostType = {
+    id: string;
+    username: string;
+    photo: string;
+    text: string;
+    datePost: string;
+    status: string;
+    upvotes: number;
+    comments: CommentType[];
+};
+
+type CommentType = {
+    id: string;
+    username: string;
+    photo: string;
+    text: string;
+    dateComment: string;
+    answers: number;
+};
+
 const PostPage = () => {
 
     const user = useUser();
@@ -31,7 +51,7 @@ const PostPage = () => {
     const param = useParams();
     const id = param.id;
 
-    const [post, setPost] = useState({
+    const [post, setPost] = useState<PostType>({
         id: '',
         username: '',
         photo: '',

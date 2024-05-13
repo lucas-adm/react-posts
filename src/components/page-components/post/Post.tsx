@@ -150,7 +150,6 @@ const Post: React.FC<PostProps> = ({ id, username, photo, text, time, upvotes, c
       <div className="bottom">
         <SVGButton path={`${upvoted ? '/svgs/upvoted.svg' : '/svgs/upvotes.svg'}`} number={upvotes} handleOnClick={upvote} border />
         <Link to={`/post/${id}`}>
-          {/* <SVGButton path="/svgs/comments.svg" number={comments} border /> */}
           <SVGButton path={status === "OPEN" ? "/svgs/chat-open.svg" : "/svgs/chat-off.svg"} number={comments} border />
         </Link>
         <Link to={`/post/${id}`}>
