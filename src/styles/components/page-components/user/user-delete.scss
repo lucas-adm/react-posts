@@ -7,7 +7,7 @@
     @include mixins.flex-column;
     gap: 3.33rem;
     margin: 0 auto;
-    padding-top: 17.77rem;
+    padding-top: 16.66rem;
 
 
     .container-delete {
@@ -44,4 +44,17 @@
             margin-bottom: 3rem;
         }
     }
+
+    >.background-warning {
+        z-index: 999;
+        position: fixed;
+        max-width: 100%;
+        width: 100vw;
+        min-height: 100vh;
+        top: 0;
+        left: 0;
+        backdrop-filter: blur(.666rem);
+        background-color: rgba(0, 0, 0, .5);
+    }
+
 }

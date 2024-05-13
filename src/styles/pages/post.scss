@@ -10,7 +10,7 @@
     grid-template-columns: 25% 50% 25%;
     margin: 0 auto;
     padding-top: 88.88px;
-    padding-bottom: 2.5rem;
+    padding-bottom: 2.25rem;
 
     * .button {
         button {
@@ -36,14 +36,16 @@
             }
         }
 
-        >.comments {
+        >.container-comments {
+            width: 100%;
+
             >.top {
                 cursor: default;
 
                 h1 {
                     position: relative;
                     width: fit-content;
-                    margin: 0 auto;
+                    margin: 3.33rem auto;
                     color: variables.getColor(grey);
 
                     &::before {
@@ -67,7 +69,38 @@
                         height: .1rem;
                         background-color: variables.getColor(grey);
                     }
+
+                    &.advise {
+                        margin: 3.33rem auto;
+
+                        &::after, &::before {
+                            display: none;
+                        }
+                    }
                 }
+            }
+
+            >.button {
+                width: fit-content;
+                margin: 3.33rem auto;
+            }
+
+            >.comments {
+                @include mixins.flex-column;
+                align-items: start;
+                gap: 3.33rem;
+            }
+
+            >.background-warning {
+                z-index: 999;
+                position: fixed;
+                max-width: 100%;
+                width: 100vw;
+                min-height: 100vh;
+                top: 0;
+                left: 0;
+                backdrop-filter: blur(.666rem);
+                background-color: rgba(0, 0, 0, .5);
             }
         }
     }

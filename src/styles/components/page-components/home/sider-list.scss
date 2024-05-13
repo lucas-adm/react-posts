@@ -32,7 +32,13 @@
             padding: .5rem 1rem;
             background-color: variables.getColor(neon-blue);
         }
+    }
 
+    >a {
+        .button {
+            margin: 0;
+            padding: 0;
+        }
     }
 
     @media screen and (max-width: 1033px) {

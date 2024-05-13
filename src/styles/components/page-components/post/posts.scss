@@ -14,11 +14,12 @@
         background-color: variables.getColor(bgc);
         padding: 1rem;
 
-        >h1 {
+        >button {
             font-size: 1.75rem;
             cursor: pointer;
             font-weight: 300;
             color: variables.getColor(info-text);
+            background-color: variables.getColor(bgc);
 
             &.current {
                 font-weight: bolder;
@@ -39,6 +40,30 @@
         p {
             color: variables.getColor(text);
             font-size: 1.5rem;
+        }
+    }
+
+
+    >.empty {
+        @include mixins.flex-column;
+        animation: appears ease-in-out 3.33s;
+
+        @keyframes appears {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        >img {
+            width: 6.66rem;
+        }
+
+        >h1 {
+            color: variables.getColor(text);
         }
     }
 

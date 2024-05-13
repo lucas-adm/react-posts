@@ -1,0 +1,70 @@
+@use '../variables.scss';
+@use '../mixins.scss';
+
+.container-users {
+    max-width: 1280px;
+    width: 100%;
+    min-height: 100vh;
+    @include mixins.grid-center;
+    align-items: start;
+    grid-template-columns: 25% 50% 25%;
+    margin: 0 auto;
+    padding-top: 88.88px;
+    padding-bottom: 2.25rem;
+
+    * .button {
+        button {
+            box-shadow: none;
+            padding: .5rem;
+
+            &.transparent {
+                box-shadow: none
+            }
+        }
+    }
+
+    >.container-center {
+        padding: 1rem;
+
+        >.svg-button {
+            width: fit-content;
+            margin-bottom: 2.22rem;
+        }
+
+        >.users {
+            @include mixins.flex-center;
+            gap: 1.5rem 1rem;
+            flex-wrap: wrap;
+
+            .user {
+                max-width: 16.66rem;
+                width: 15rem;
+                border: 1px solid variables.getColor(neon-blue);
+                border-radius: .5rem;
+                box-shadow: variables.getColor(shadow);
+                transition: box-shadow ease-in-out .25s;
+
+                &:hover {
+                    box-shadow: variables.getColor(blur-shadow);
+                }
+
+                >a.user-link {
+                    >.user {
+                        @include mixins.flex-center;
+                        padding: 1rem;
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    @media screen and (max-width: 1033px) {
+        grid-template-columns: 25% 75%;
+    }
+
+    @media screen and (max-width: 777px) {
+        grid-template-columns: 1fr;
+    }
+}

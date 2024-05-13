@@ -1,59 +1,104 @@
 @use '../../../variables.scss';
 @use '../../../mixins.scss';
 
-.comment {
+.container-comment {
     width: 100%;
     margin: 0 auto;
-    @include mixins.flex-column;
-    align-items: start;
-    line-height: 2rem;
-    word-break: break-word;
 
-    >.top {
+    >.comment {
         position: relative;
-        @include mixins.flex-center;
-        gap: 1rem;
-        padding: .5rem 1rem;
+        @include mixins.flex-column;
+        align-items: start;
+        line-height: 2rem;
+        word-break: break-word;
 
-        >img {
-            width: 6.66rem;
+        >.owner {
+            position: absolute !important;
+            bottom: 0;
+            right: 0;
+            // width: 100%;
+            @include mixins.flex-center;
+            justify-content: end;
+            gap: 1rem;
+            padding-right: 1rem;
+
+            >.button {
+                width: fit-content;
+                padding: 0;
+            }
         }
 
-        >a {
-            >h1 {
-                font-size: 1.5rem;
-                color: variables.getColor(text);
+        >.background-warning {
+            z-index: 999;
+            position: fixed;
+            max-width: 100%;
+            width: 100vw;
+            min-height: 100vh;
+            top: 0;
+            left: 0;
+            backdrop-filter: blur(.666rem);
+            background-color: rgba(0, 0, 0, .5);
+        }
 
-                &:hover {
-                    text-decoration: underline;
+        >.top {
+            position: relative;
+            @include mixins.flex-center;
+            gap: 1rem;
+            padding: .5rem 1rem;
+
+            >img {
+                width: 6.66rem;
+            }
+
+            >a {
+                >h1 {
+                    font-size: 1.5rem;
+                    color: variables.getColor(text);
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+
+                    @media screen and (max-width:561px) {
+                        padding-bottom: 1rem;
+                    }
                 }
+            }
+
+            >p {
+                font-size: 1.25rem;
+                color: variables.getColor(info-text);
 
                 @media screen and (max-width:700px) {
-                    padding-bottom: 1rem;
+                    width: 100%;
+                    position: absolute;
+                    bottom: 0;
+                    left: 9rem;
                 }
             }
         }
 
-        >p {
-            font-size: 1.25rem;
-            color: variables.getColor(info-text);
+        >.content {
+            width: 100%;
+            border-radius: .5rem;
+            padding: 1rem 1.6rem;
 
-            @media screen and (max-width:561px) {
-                position: absolute;
-                bottom: 0;
-                left: 9rem;
+            >p {
+                font-size: 1.333rem;
+                color: variables.getColor(text);
+            }
+        }
+
+        >.bottom {
+            width: 100%;
+
+            >.svg-button {
+                width: fit-content;
             }
         }
     }
 
-    >.content {
-        width: 100%;
-        border-radius: .5rem;
-        padding: 1rem 1.6rem;
-
-        >p {
-            font-size: 1.333rem;
-            color: variables.getColor(text);
-        }
+    >.svg-button {
+        width: fit-content;
     }
 }
