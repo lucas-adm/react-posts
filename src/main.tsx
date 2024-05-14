@@ -19,11 +19,11 @@ import UserPhoto from './components/page-components/user/UserPhoto.tsx'
 import UserEdit from './components/page-components/user/UserEdit.tsx'
 import UserDelete from './components/page-components/user/UserDelete.tsx'
 
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createHashRouter, RouterProvider } from 'react-router-dom'
 import Auth from './auth.tsx'
 import { UserProvider } from './context/UserProvider.tsx'
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <Auth><UserProvider><App /></UserProvider></Auth>,
