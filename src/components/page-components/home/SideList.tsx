@@ -5,15 +5,20 @@ import Button from '../../form/Button'
 import UserIndex from '../user/UserIndex'
 
 import { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+
+type SideListProps = {
+    className?: string;
+    onClose?: () => void;
+}
 
 interface UserState {
     username: string;
     photo: string;
 }
 
-const SideList = () => {
+const SideList: React.FC<SideListProps> = ({ className, onClose }) => {
 
     const [users, setUsers] = useState<UserState[]>([])
 
@@ -36,12 +41,18 @@ const SideList = () => {
 
     function submit(event: React.FormEvent) {
         event.preventDefault();
+        onClose && onClose();
         navigate(`/posts/${inputText}`);
         setInputText("");
     }
 
+    const findAll = () => {
+        navigate('/users');
+        onClose && onClose();
+    }
+
     return (
-        <div className="container-side-users">
+        <div className={`container-side-users ${className}`}>
             <form className="search-user-posts" onSubmit={submit}>
                 <Input
                     name="nome"
@@ -60,7 +71,9 @@ const SideList = () => {
                     <UserIndex key={user.username} param={user.username} username={user.username} photo={user.photo} />
                 ))}
             </div>
-            <Link to={'/users'}><Button text="Ver todos" /></Link>
+            <div className="find-all-btn">
+                <Button text="Ver todos" handleOnClick={findAll} />
+            </div>
         </div>
     )
 }

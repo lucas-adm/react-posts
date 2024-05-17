@@ -1,5 +1,8 @@
 import '../styles/components/header.scss';
 
+import SVGButton from './action/SVGButton';
+import SideList from './page-components/home/SideList';
+
 import { useUser } from '../context/UserProvider';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
@@ -13,6 +16,16 @@ const Header = () => {
     const openMenu = () => {
         setOpen(!open);
     };
+
+    const [closed, setClosed] = useState(true);
+
+    const closeSidebar = () => {
+        setClosed(true);
+    };
+
+    const openSearch = () => {
+        setClosed(!closed);
+    }
 
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -35,11 +48,16 @@ const Header = () => {
     return (
         <header>
             <nav>
+                <SideList className={`${closed ? "inactive" : "active"}`} onClose={closeSidebar}/>
+                <div className={`go-back ${closed ? "inactive" : "active"}`}>
+                    <SVGButton path="/svgs/back.svg" handleOnClick={openSearch} />
+                </div>
                 <Link to={'/'}>
                     <div className="logo">
                         <img src="/imgs/logo.png" alt="Posts logo" />
                     </div>
                 </Link>
+                <SVGButton path="/svgs/search.svg" handleOnClick={openSearch} />
                 <div className="profile" ref={menuRef}>
                     {user?.username !== "Demo" ?
                         <>

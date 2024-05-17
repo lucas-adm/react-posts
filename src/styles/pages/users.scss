@@ -37,8 +37,7 @@
             flex-wrap: wrap;
 
             .user {
-                max-width: 16.66rem;
-                width: 15rem;
+                width: 185px;
                 border: 1px solid variables.getColor(neon-blue);
                 border-radius: .5rem;
                 box-shadow: variables.getColor(shadow);
@@ -51,6 +50,7 @@
                 >a.user-link {
                     >.user {
                         @include mixins.flex-center;
+                        justify-content: start;
                         padding: 1rem;
                     }
                 }

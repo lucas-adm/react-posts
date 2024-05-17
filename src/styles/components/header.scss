@@ -2,24 +2,89 @@
 @use '../mixins.scss';
 
 header {
-    z-index: 999;
+    z-index: 997;
     position: fixed;
     width: 100vw;
     background-color: variables.getColor(bgc);
     box-shadow: variables.getColor(bottom-shadow);
 
     nav {
+        position: relative;
         max-width: 1280px;
         margin: 0 auto;
         padding: .5rem 1rem;
         @include mixins.flex-center;
         justify-content: space-between;
 
+        >.container-side-users {
+            z-index: 998;
+            position: absolute;
+            top: 0;
+            left: 0;
+            min-height: 100vh;
+            justify-content: start;
+            background-color: variables.getColor(bgc);
+
+            &.active {
+                visibility: visible;
+                width: 330px;
+                transition: ease-in-out .25s;
+            }
+
+            &.inactive {
+                visibility: hidden;
+                width: 0;
+            }
+
+            @media screen and (max-width: 1033px) {
+                display: flex;
+            }
+        }
+
+        >.go-back {
+            z-index: 999;
+            position: absolute;
+            width: fit-content;
+            top: 2.5rem;
+            left: 29rem;
+
+            &.active {
+                display: block;
+                transition: .333s ease;
+            }
+
+            &.inactive {
+                display: none;
+            }
+        }
+
         .logo {
             @include mixins.flex-center;
 
             img {
                 width: 6.66rem;
+            }
+        }
+
+        >.svg-button {
+            display: none;
+
+            >button {
+                img {
+                    width: 4.4rem;
+                    border-radius: .5rem;
+                    background-color: variables.getColor(white);
+                    filter: drop-shadow(0 0 1px black);
+                    padding: .5rem;
+                }
+
+                >p {
+                    display: none;
+                }
+            }
+
+            @media screen and (max-width: 1033px) {
+                display: block;
             }
         }
 
