@@ -13,7 +13,7 @@ interface PostState {
     text: string;
     datePost: string;
     status?: string;
-    upvotes?: string | number;
+    upvotes?: number;
     comments?: number | Array<Comment>;
 }
 

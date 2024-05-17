@@ -15,7 +15,7 @@ interface PostState {
     text: string;
     datePost: string;
     status?: string;
-    upvotes?: string;
+    upvotes?: number;
     comments?: number | Array<Comment>;
 }
 
