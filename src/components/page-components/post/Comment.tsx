@@ -169,7 +169,7 @@ const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateCommen
                 <div className={`${removing ? "background-warning" : ""}`}>
                     <div ref={warningRef}>
                         {removing && (
-                            <BlurMessage message="Ainda quer apagar?" text={`"Banque aquilo que foi dito, do contrário serás um covarde" - Albert Einstein`} handleOnClick={saveRemove} />
+                            <BlurMessage message="Ainda quer apagar?" text={`Apagando este comentário ele não poderá ser recuperado.`} handleOnClick={saveRemove} />
                         )}
                     </div>
                 </div>

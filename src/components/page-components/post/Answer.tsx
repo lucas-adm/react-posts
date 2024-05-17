@@ -110,7 +110,7 @@ const Answer: React.FC<AnswerProps> = ({ id, username, photo, text, dateAnswer, 
             <div className={`${removing ? "background-warning" : ""}`}>
                 <div ref={warningRef}>
                     {removing && (
-                        <BlurMessage message="Ainda quer apagar?" text={`"Banque aquilo que foi dito, do contrário serás um covarde" - Albert Einstein`} handleOnClick={saveRemove} />
+                        <BlurMessage message="Ainda quer apagar?" text={`Apagando esta resposta ela não poderá ser recuperada.`} handleOnClick={saveRemove} />
                     )}
                 </div>
             </div>
