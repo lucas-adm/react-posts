@@ -17,7 +17,7 @@ type PostProps = {
   text: string;
   time: string;
   status?: string;
-  upvotes?: number | string;
+  upvotes?: number;
   comments?: number | Array<Comment>;
   onDelete?: (id: string) => void;
 };
@@ -112,10 +112,40 @@ const Post: React.FC<PostProps> = ({ id, username, photo, text, time, upvotes, c
       .catch(error => console.error(error));
   }
 
-  const [upvoted, setUpvoted] = useState(false);
+  // const [upvoted, setUpvoted] = useState(false);
 
-  const upvote = () => {
-    setUpvoted(!upvoted);
+  // const upvote = () => {
+  //   setUpvoted(!upvoted);
+  // }
+
+  const [upvote, setUpvote] = useState<number>(upvotes ? upvotes : 0);
+
+  const increase = () => {
+    axios.post(`${API}/posts/post/upvotes/${id}`, {}, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(() => {
+        setUpvote(upvote + 1);
+      })
+      .catch(() => {
+        return;
+      })
+  }
+
+  const decrease = () => {
+    axios.delete(`${API}/posts/post/upvotes/${id}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(() => {
+        setUpvote(upvote - 1);
+      })
+      .catch(() => {
+        return;
+      })
   }
 
   return (
@@ -129,7 +159,7 @@ const Post: React.FC<PostProps> = ({ id, username, photo, text, time, upvotes, c
       <div className={`${removing ? "background-warning" : ""}`}>
         <div ref={warningRef}>
           {removing && (
-            <BlurMessage message="Ainda quer apagar?" text={`"Banque aquilo que foi dito, do contrário serás um covarde" - Albert Einstein`} handleOnClick={saveRemove} />
+            <BlurMessage message="Ainda quer apagar?" text={`Apagando esta postagem ela não poderá ser recuperada.`} handleOnClick={saveRemove} />
           )}
         </div>
       </div>
@@ -148,7 +178,12 @@ const Post: React.FC<PostProps> = ({ id, username, photo, text, time, upvotes, c
           <Textarea action="Salvar" value={newText} error={error} handleOnChange={handleTextChange} handleOnClick={saveEdit} />
         </>}
       <div className="bottom">
-        <SVGButton path={`${upvoted ? '/svgs/upvoted.svg' : '/svgs/upvotes.svg'}`} number={upvotes} handleOnClick={upvote} border />
+        {/* <SVGButton path={`${upvoted ? '/svgs/upvoted.svg' : '/svgs/upvotes.svg'}`} number={upvotes} handleOnClick={upvote} border /> */}
+        <div className="upvote">
+          <SVGButton path="/svgs/hide.svg" handleOnClick={increase} />
+          <p>{upvote}</p>
+          <SVGButton path="/svgs/load-more.svg" handleOnClick={decrease} />
+        </div>
         <Link to={`/post/${id}`}>
           <SVGButton path={status === "OPEN" ? "/svgs/chat-open.svg" : "/svgs/chat-off.svg"} number={comments} border />
         </Link>

@@ -94,5 +94,25 @@
         @include mixins.flex-center;
         gap: .5rem;
         padding: .25rem 1rem;
+
+        >.upvote {
+            @include mixins.flex-column;
+
+            >.svg-button {
+                >button {
+                    margin: 0 auto;
+                    padding: 0;
+
+                    >p {
+                        display: none;
+                    }
+                }
+            }
+
+            >p {
+                color: variables.getColor(text);
+                font-size: 1.5rem;
+            }
+        }
     }
 }
