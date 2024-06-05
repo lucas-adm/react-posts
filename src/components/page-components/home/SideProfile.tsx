@@ -1,5 +1,6 @@
 import '../../../styles/components/page-components/home/side-profile.scss'
 
+import Picture from '../../picture/Picture';
 import Button from "../../form/Button"
 
 import { useUser } from '../../../context/UserProvider';
@@ -14,7 +15,9 @@ const SideProfile = () => {
         <div className="user-detail">
             {user?.username !== "Demo" ?
                 <>
-                    <Link to={'/user/photo'} className="hover-action"><img src={user?.photo} alt={`Foto do ${user?.username}`} /></Link>
+                    <Link to={'/user/photo'} className="hover-action">
+                        <Picture src={user?.photo} username={user?.username} width="256px" />
+                    </Link>
                     <div className="info">
                         <p>{user?.email}</p>
                     </div>
@@ -25,7 +28,7 @@ const SideProfile = () => {
                     <Link to={`/user/${user?.username}`}><Button text="Meus Posts!" transparent></Button></Link>
                 </> :
                 <>
-                    <img src={user?.photo} alt={`Foto do ${user?.username}`} />
+                    <Picture src={user?.photo} username={user?.username} width="256px" />
                     <div className="info">
                         <p>@{user?.username}</p>
                     </div>

@@ -1,5 +1,6 @@
 import '../../../styles/components/page-components/post/comment.scss';
 
+import Picture from '../../picture/Picture';
 import Button from '../../form/Button';
 import SVGButton from '../../action/SVGButton';
 import BlurMessage from './BlurMessage';
@@ -174,7 +175,7 @@ const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateCommen
                     </div>
                 </div>
                 <div className="top">
-                    <img src={photo} alt={`Foto de usuário de ${username}`} />
+                    <Picture src={photo} username={username} width="6.66rem" />
                     <Link to={`/user/${username}`}><h1>{username}</h1></Link>
                     <p>{dateComment}</p>
                 </div>

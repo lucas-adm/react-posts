@@ -1,5 +1,6 @@
 import '../../../styles/components/page-components/post/post.scss';
 
+import Picture from '../../picture/Picture';
 import SVGButton from '../../action/SVGButton';
 import Button from '../../form/Button';
 import Textarea from '../../form/Textarea';
@@ -22,7 +23,7 @@ type PostProps = {
   onDelete?: (id: string) => void;
 };
 
-const Post: React.FC<PostProps> = ({ id, username, photo, text, time, upvotes, comments, status, onDelete }) => {
+const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDelete }: PostProps) => {
 
   const user = useUser();
 
@@ -164,7 +165,7 @@ const Post: React.FC<PostProps> = ({ id, username, photo, text, time, upvotes, c
         </div>
       </div>
       <div className="top">
-        <img src={photo} alt={`Foto de usuário de ${username}`} />
+        <Picture src={photo} username={username} width="6.66rem"/>
         <Link to={`/user/${username}`}><h1>{username}</h1></Link>
         <p>{time}</p>
       </div>

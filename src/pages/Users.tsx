@@ -18,13 +18,16 @@ interface UserState {
 const Users = () => {
     const [users, setUsers] = useState<UserState[]>([])
 
+    const [loading, setLoading] = useState<boolean>(false);
     useEffect(() => {
+        setLoading(true);
         const API = import.meta.env.VITE_API;
         axios.get(`${API}/users`)
             .then((response) => {
+                setLoading(false);
                 setUsers(response.data);
             })
-            .catch(error => console.error(error));
+            .catch(() => setLoading(false));
     }, [])
 
     const navigate = useNavigate();
@@ -37,14 +40,22 @@ const Users = () => {
         <div className="container-users">
             <SideProfile />
             <div className="container-center">
-                <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
-                <div className="users">
-                    {users.map(user => (
-                        <div className="user">
-                            <UserIndex key={user.id} param={user.username} username={user.username.length > 7 ? `${user.username.slice(0, 7)}...` : user.username} photo={user.photo} />
+                {loading ? (
+                    <div className="loading-svg" style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                        <img src="/svgs/loading.svg" />
+                    </div>
+                ) : (
+                    <>
+                        <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
+                        <div className="users">
+                            {users.map(user => (
+                                <div className="user">
+                                    <UserIndex key={user.id} param={user.username} username={user.username.length > 7 ? `${user.username.slice(0, 7)}...` : user.username} photo={user.photo} />
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </>
+                )}
             </div>
             <SideList />
         </div>

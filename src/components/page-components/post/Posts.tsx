@@ -19,6 +19,8 @@ interface PostState {
 
 const Posts = () => {
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [posts, setPosts] = useState<PostState[]>([]);
 
     const [search, setSearch] = useState('recent');
@@ -54,12 +56,14 @@ const Posts = () => {
             url = `${API}/posts?page=${currentPage}&size=10&`;
         }
 
+        setLoading(true);
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 setPosts(response.data);
                 response.data.length === 10 ? setMax(false) : setMax(true);
             })
-            .catch(error => console.log(error));
+            .catch(() => setLoading(false));
     }, [search, deleted]);
 
     const loadMore = () => {
@@ -80,12 +84,14 @@ const Posts = () => {
             url = `${API}/posts?page=${nextPage}&size=10&`;
         }
 
+        setLoading(true);
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 setPosts(prevPosts => [...prevPosts, ...response.data]);
                 response.data.length === 10 ? setMax(false) : setMax(true);
             })
-            .catch(error => console.log(error));
+            .catch(() => setLoading(false));
     };
 
     return (
@@ -109,7 +115,10 @@ const Posts = () => {
                     onDelete={handleDeletePost}
                 />
             ))}
-            {!max && (
+            {loading && (
+                <img src="/svgs/loading.svg" />
+            )}
+            {!loading && !max && (
                 <SVGButton path="/svgs/load-more.svg" handleOnClick={loadMore} />
             )}
         </div>

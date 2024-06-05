@@ -23,6 +23,8 @@ const Answers: React.FC<AnswerProps> = ({ comment }) => {
 
     const [answers, setAnswers] = useState<AnswerState[]>([]);
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [page, setPage] = useState(0);
 
     const [max, setMax] = useState(false);
@@ -43,14 +45,16 @@ const Answers: React.FC<AnswerProps> = ({ comment }) => {
         setAnswers([]);
         setMax(false);
 
+        setLoading(true);
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 if (response.data.length < 5) {
                     setMax(true);
                 }
                 setAnswers(response.data);
             })
-            .catch(error => console.log(error));
+            .catch(() => setLoading(false));
     }, [deleted]);
 
     const loadMore = () => {
@@ -58,14 +62,16 @@ const Answers: React.FC<AnswerProps> = ({ comment }) => {
         setPage(nextPage);
         const url: string = `${API}/posts/post/comments/${comment}?page=${nextPage}&size=5`;
 
+        setLoading(true);
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 if (response.data.length < 5) {
                     setMax(true);
                 }
                 setAnswers(prevAnswers => [...prevAnswers, ...response.data]);
             })
-            .catch(error => console.log(error));
+            .catch(() => setLoading(false));
     };
 
     return (
@@ -81,7 +87,12 @@ const Answers: React.FC<AnswerProps> = ({ comment }) => {
                     onDelete={handleDeleteAnswer}
                 />
             ))}
-            {!max && (
+            {loading && (
+                <div className="loading-svg">
+                    <img src="/svgs/loading.svg" />
+                </div>
+            )}
+            {!loading && !max && (
                 <SVGButton path="/svgs/load-more.svg" spacing text="Mostrar mais" handleOnClick={loadMore} />
             )}
         </div>

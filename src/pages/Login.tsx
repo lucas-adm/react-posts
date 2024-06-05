@@ -69,7 +69,6 @@ const Login = () => {
       .then((response) => {
         setRequesting(false);
         localStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('token', response.data.token);
         sessionStorage.setItem('password', form.password);
         navigate('/');
       })
@@ -99,50 +98,57 @@ const Login = () => {
       })
   }
 
-  const asGuest = () => {
+  const [requestingAsGuest, setRequestingAsGuest] = useState<boolean>(false);
+
+  const asGuest = (event: React.FormEvent) => {
+    event.preventDefault();
     const data = {
       ...form,
       username: "Demo",
       password: "3Tres"
     }
 
-    setRequesting(true);
+    setRequestingAsGuest(true);
 
     axios.post(`${API}/users/login`, data)
       .then((response) => {
-        setRequesting(false);
+        setRequestingAsGuest(false);
         localStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('token', response.data.token);
         navigate('/');
       })
+      .catch(() => setRequestingAsGuest(false));
   }
 
   return (
     <div className="container-login">
-      <form className="container-form" onSubmit={submit}>
-        <MessageHeader text="" />
-        <Input
-          name="username"
-          label="Nome de usuário"
-          type="text"
-          placeholder="João Embaixadinha"
-          image='/svgs/username.svg'
-          handleOnChange={handleInputChange}
-          error={errors.username} />
-        <Input
-          name="password"
-          label="Senha"
-          type={`${showPassword ? 'text' : 'password'}`}
-          placeholder="Senha"
-          image={`${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`}
-          handleOnClick={toggleShowPassword}
-          handleOnChange={handleInputChange}
-          error={errors.password} />
-        <Button text={!requesting ? "Login" : "Logando..."} />
+      <div className="container-form">
+        <form onSubmit={submit}>
+          <MessageHeader text="" />
+          <Input
+            name="username"
+            label="Nome de usuário"
+            type="text"
+            placeholder="João Embaixadinha"
+            image='/svgs/username.svg'
+            handleOnChange={handleInputChange}
+            error={errors.username} />
+          <Input
+            name="password"
+            label="Senha"
+            type={`${showPassword ? 'text' : 'password'}`}
+            placeholder="Senha"
+            image={`${showPassword ? "/svgs/eye-off.svg" : "/svgs/eye.svg"}`}
+            handleOnClick={toggleShowPassword}
+            handleOnChange={handleInputChange}
+            error={errors.password} />
+          <Button text={!requesting ? "Login" : "Logando..."} />
+        </form>
         <div className="or"><h2>ou</h2></div>
-        <Button text={!requesting ? "Entrar como visitante" : "Logando..."} transparent handleOnClick={asGuest} />
+        <form onSubmit={asGuest}>
+          <Button text={!requestingAsGuest ? "Entrar como visitante" : "Logando..."} transparent />
+        </form>
         <Link to={'/register'}><Button text="Criar conta" transparent /></Link>
-      </form>
+      </div>
       <Apresentation />
     </div>
   )

@@ -19,6 +19,39 @@ const Header = () => {
 
     const [closed, setClosed] = useState(true);
 
+    useEffect(() => {
+        if (!closed) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'unset';
+        }
+    }, [closed]);
+
+    const sideListRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handler = (event: MouseEvent | KeyboardEvent | TouchEvent) => {
+            if (sideListRef.current && !sideListRef.current.contains(event.target as Node)) {
+                setClosed(true);
+            }
+        }
+        document.addEventListener('mousedown', handler);
+        document.addEventListener('touchstart', handler);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === "Escape") {
+                handler(event);
+            }
+        });
+        return () => {
+            document.removeEventListener('mousedown', handler);
+            document.removeEventListener('keydown', (event) => {
+                if (event.key === "Escape") {
+                    handler(event);
+                }
+            });
+        }
+    }, [])
+
     const closeSidebar = () => {
         setClosed(true);
     };
@@ -48,7 +81,7 @@ const Header = () => {
     return (
         <header>
             <nav>
-                <SideList className={`${closed ? "inactive" : "active"}`} onClose={closeSidebar}/>
+                <SideList className={`${closed ? "inactive" : "active"}`} onClose={closeSidebar} ref={sideListRef} />
                 <div className={`go-back ${closed ? "inactive" : "active"}`}>
                     <SVGButton path="/svgs/back.svg" handleOnClick={openSearch} />
                 </div>
@@ -61,7 +94,7 @@ const Header = () => {
                 <div className="profile" ref={menuRef}>
                     {user?.username !== "Demo" ?
                         <>
-                            <img src={user?.photo} alt="Posts logo" onClick={openMenu} />
+                            <img src={user?.photo} alt="Foto" onClick={openMenu} />
                             <ul className={`${open ? 'active' : 'inactive'}`}>
                                 <li className="border-bottom"><Link to={`/user/${user?.username}`}>{user?.username}</Link></li>
                                 <li><Link to={'/user/photo'}>Trocar foto</Link></li>
@@ -71,7 +104,7 @@ const Header = () => {
                             </ul>
                         </> :
                         <>
-                            <img src={user?.photo} alt="Posts logo" onClick={openMenu} />
+                            <img src={user?.photo} alt="Foto" onClick={openMenu} />
                             <ul className={`${open ? 'active' : 'inactive'}`}>
                                 <li className="border-bottom"><Link to={`/user/${user?.username}`}>{user?.username}</Link></li>
                                 <li><Link to={'/register'}>Criar conta</Link></li>

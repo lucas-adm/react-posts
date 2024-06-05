@@ -44,6 +44,8 @@ const PostPage = () => {
         navigate(-1);
     }
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const API = import.meta.env.VITE_API;
 
     const token = localStorage.getItem('token');
@@ -65,12 +67,15 @@ const PostPage = () => {
     const [status, setStatus] = useState<string>("");
 
     useEffect(() => {
+        setLoading(true);
         axios.get(`${API}/posts/post/${id}`)
             .then((response) => {
+                setLoading(false);
                 setPost(response.data);
                 setStatus(response.data.status);
             })
             .catch(() => {
+                setLoading(false);
                 navigate('/');
             });
     }, [])
@@ -158,51 +163,55 @@ const PostPage = () => {
     return (
         <div className="container-post">
             <SideProfile />
-            <div className="container-center">
-                <div className="goBack">
-                    <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
-                </div>
-                <Post key={post.id} id={post.id} username={post.username} photo={post.photo} text={post.text} time={post.datePost} status={status} upvotes={post.upvotes} comments={post.comments.length} />
-                <div className="container-comments">
-                    {status === "OPEN" ?
-                        <>
-                            <div className="top">
-                                <h1>Comentários</h1>
-                            </div>
-                            {post.username === user?.username && user.username !== "Demo" && (
-                                <><Button text="Trancar comentários" transparent handleOnClick={close} />
-                                    <div className={`${removing ? "background-warning" : ""}`}>
-                                        <div ref={warningRef}>
-                                            {removing && (
-                                                <BlurMessage message="Trancar?" text="Fechar uma postagem bloqueia todos os futuros comentários e respostas." handleOnClick={patch} />
-                                            )}
+            {loading ? (
+                <img src="/svgs/loading.svg" />
+            ) : (
+                <div className="container-center">
+                    <div className="goBack">
+                        <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
+                    </div>
+                    <Post key={post.id} id={post.id} username={post.username} photo={post.photo} text={post.text} time={post.datePost} status={status} upvotes={post.upvotes} comments={post.comments.length} />
+                    <div className="container-comments">
+                        {status === "OPEN" ?
+                            <>
+                                <div className="top">
+                                    <h1>Comentários</h1>
+                                </div>
+                                {post.username === user?.username && user.username !== "Demo" && (
+                                    <><Button text="Trancar comentários" transparent handleOnClick={close} />
+                                        <div className={`${removing ? "background-warning" : ""}`}>
+                                            <div ref={warningRef}>
+                                                {removing && (
+                                                    <BlurMessage message="Trancar?" text="Fechar uma postagem bloqueia todos os futuros comentários e respostas." handleOnClick={patch} />
+                                                )}
+                                            </div>
                                         </div>
-                                    </div>
-                                </>
-                            )}
-                            <Textarea action="Comentar" error={error} handleOnChange={handleTextarea} handleOnClick={comment} />
-                        </> :
-                        <>
-                            <div className="top">
-                                <h1 className="advise">Conversa fechada</h1>
-                            </div>
-                        </>}
-                    <div className="comments">
-                        {post.comments.map(comment => (
-                            <Comment
-                                key={comment.id}
-                                id={comment.id}
-                                username={comment.username}
-                                photo={comment.photo}
-                                text={comment.text}
-                                dateComment={comment.dateComment}
-                                answers={comment.answers}
-                                onDelete={handleDeleteComment}
-                            />
-                        ))}
+                                    </>
+                                )}
+                                <Textarea action="Comentar" error={error} handleOnChange={handleTextarea} handleOnClick={comment} />
+                            </> :
+                            <>
+                                <div className="top">
+                                    <h1 className="advise">Conversa fechada</h1>
+                                </div>
+                            </>}
+                        <div className="comments">
+                            {post.comments.map(comment => (
+                                <Comment
+                                    key={comment.id}
+                                    id={comment.id}
+                                    username={comment.username}
+                                    photo={comment.photo}
+                                    text={comment.text}
+                                    dateComment={comment.dateComment}
+                                    answers={comment.answers}
+                                    onDelete={handleDeleteComment}
+                                />
+                            ))}
+                        </div>
                     </div>
                 </div>
-            </div>
+            )}
             <SideUsers />
         </div>
     )

@@ -1,5 +1,7 @@
 import '../../../styles/components/page-components/user/user-index.scss';
 
+import Picture from '../../picture/Picture';
+
 import { Link } from 'react-router-dom';
 
 type UserIndexProps = {
@@ -8,11 +10,11 @@ type UserIndexProps = {
     photo: string;
 };
 
-const UserIndex: React.FC<UserIndexProps> = ({ param, username, photo }) => {
+const UserIndex = ({ param, username, photo }: UserIndexProps) => {
     return (
         <Link to={`/user/${param}`} className="user-link">
             <div className="user">
-                <img src={photo} alt={`Foto de usuário de ${username}`} />
+                <Picture src={photo} username={username} width="5.55rem" />
                 <h1>{username}</h1>
             </div>
         </Link>

@@ -30,16 +30,21 @@ const Search = () => {
         photo: ""
     });
 
+    const [loading, setLoading] = useState<boolean>(false);
+
     const [notFound, setNotFound] = useState<boolean>(false);
 
     useEffect(() => {
         const API = import.meta.env.VITE_API;
+        setLoading(true);
         axios.get(`${API}/users/${username}`)
             .then((response) => {
+                setLoading(false);
                 setNotFound(false);
                 setUser(response.data);
             })
             .catch((error) => {
+                setLoading(false);
                 error.response.status === 404 ? setNotFound(true) : setNotFound(false);
             })
     }, [username])
@@ -51,24 +56,30 @@ const Search = () => {
     return (
         <div className="container-search">
             <SideProfile />
-            <div className="container-center">
-                <div className="user">
-                    <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
-                    {!notFound ?
-                        <>
-                            <UserIndex key={user.username} param={user.username} username={user.username} photo={user.photo} />
-                        </> :
-                        <>
-                            <div className="not-found">
-                                <img src="/svgs/anonymous.svg" alt="Usuário não encontrado" />
-                                <h1>Não registrado ou excluído</h1>
-                            </div>
-                        </>}
+            {loading ? (
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
+                    <img src="/svgs/loading.svg" />
                 </div>
-                <div className="posts">
-                    <UserPosts key={user.id} param={username} />
+            ) : (
+                <div className="container-center">
+                    <div className="user">
+                        <SVGButton path="/svgs/back.svg" handleOnClick={goBack} />
+                        {!notFound ?
+                            <>
+                                <UserIndex key={user.username} param={user.username} username={user.username} photo={user.photo} />
+                            </> :
+                            <>
+                                <div className="not-found">
+                                    <img src="/imgs/user.png" alt="Usuário não encontrado" />
+                                    <h1>Não registrado ou excluído</h1>
+                                </div>
+                            </>}
+                    </div>
+                    <div className="posts">
+                        <UserPosts key={user.id} param={username} />
+                    </div>
                 </div>
-            </div>
+            )}
             <SideList />
         </div>
     )

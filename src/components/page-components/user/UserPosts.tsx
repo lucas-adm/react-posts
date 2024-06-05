@@ -19,7 +19,7 @@ interface PostState {
     comments?: number | Array<Comment>;
 }
 
-const UserPosts: React.FC<UserPostsProps> = ({ param }) => {
+const UserPosts = ({ param }: UserPostsProps) => {
 
     const [posts, setPosts] = useState<PostState[]>([]);
 
@@ -28,6 +28,8 @@ const UserPosts: React.FC<UserPostsProps> = ({ param }) => {
     const [page, setPage] = useState(0);
 
     const [max, setMax] = useState(false);
+
+    const [loading, setLoading] = useState<boolean>(false);
 
     const API = import.meta.env.VITE_API;
 
@@ -38,23 +40,25 @@ const UserPosts: React.FC<UserPostsProps> = ({ param }) => {
         setPosts([]);
 
         if (search === 'relevant') {
-            url = `${API}/posts/${param}?page=${currentPage}&size=2&sortBy=commentCount`;
+            url = `${API}/posts/${param}?page=${currentPage}&size=10&sortBy=commentCount`;
         }
 
         if (search === 'trending') {
-            url = `${API}/posts/${param}?page=${currentPage}&size=2&sortBy=upvoteCount`;
+            url = `${API}/posts/${param}?page=${currentPage}&size=10&sortBy=upvoteCount`;
         }
 
         if (search === 'recent') {
-            url = `${API}/posts/${param}?page=${currentPage}&size=2&`;
+            url = `${API}/posts/${param}?page=${currentPage}&size=10&`;
         }
 
+        setLoading(true);
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 setPosts(response.data);
                 response.data.length === 10 ? setMax(false) : setMax(true);
             })
-            .catch(error => console.log(error));
+            .catch(() => setLoading(false));
     }, [search, param]);
 
     const loadMore = () => {
@@ -75,16 +79,22 @@ const UserPosts: React.FC<UserPostsProps> = ({ param }) => {
             url = `${API}/posts/${param}?page=${nextPage}&size=10&`;
         }
 
+        setLoading(true);
         axios.get(url)
             .then((response) => {
+                setLoading(false);
                 setPosts(prevPosts => [...prevPosts, ...response.data]);
                 response.data.length === 10 ? setMax(false) : setMax(true);
             })
-            .catch(error => console.log(error));
+            .catch(() => setLoading(false));
     };
+
 
     return (
         <div className="posts">
+            {loading && (
+                <img src="/svgs/loading.svg" />
+            )}
             {posts.length > 0 ?
                 <>
                     <div className="top">
@@ -104,15 +114,20 @@ const UserPosts: React.FC<UserPostsProps> = ({ param }) => {
                             status={post.status}
                         />
                     ))}
+                    {loading && (
+                        <img src="/svgs/loading.svg" />
+                    )}
                     {!max && (
                         <SVGButton path="/svgs/load-more.svg" handleOnClick={loadMore} />
                     )}
                 </> :
                 <>
-                    <div className="empty">
-                        <img src="/svgs/ghost.svg" alt="Imagem de um fantasma" />
-                        <h1>Nunca postou nada</h1>
-                    </div>
+                    {!loading && (
+                        <div className="empty">
+                            <img src="/svgs/ghost.svg" alt="Imagem de um fantasma" />
+                            <h1>Nunca postou nada</h1>
+                        </div>
+                    )}
                 </>
             }
         </div>

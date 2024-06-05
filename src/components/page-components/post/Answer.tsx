@@ -1,5 +1,6 @@
 import '../../../styles/components/page-components/post/answer.scss';
 
+import Picture from '../../picture/Picture';
 import Button from '../../form/Button';
 import BlurMessage from './BlurMessage';
 import Textarea from '../../form/Textarea';
@@ -115,7 +116,7 @@ const Answer: React.FC<AnswerProps> = ({ id, username, photo, text, dateAnswer, 
                 </div>
             </div>
             <div className="top">
-                <img src={photo} alt={`Foto de usuário de ${username}`} />
+                <Picture src={photo} username={username} width="6.66rem" />
                 <Link to={`/user/${username}`}><h1>{username}</h1></Link>
                 <p>{dateAnswer}</p>
             </div>

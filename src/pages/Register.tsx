@@ -33,17 +33,12 @@ const Register = () => {
     setShowPassword(!showPassword);
   };
 
-  const getAvatar = () => {
-    const randomId = Math.random().toString(36).substring(2);
-    return `https://api.multiavatar.com/${randomId}.svg`;
-  }
-
   const [form, setForm] = useState<FormState>({
     email: "",
     username: "",
     password: "",
     birthDate: "",
-    photo: getAvatar()
+    photo: "/imgs/user.png"
   });
   const [repeatPassword, setRepeatPassword] = useState<string>("");
 
