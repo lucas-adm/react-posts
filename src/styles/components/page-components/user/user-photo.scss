@@ -9,8 +9,7 @@
     margin: 0 auto;
     padding-top: 16.66rem;
 
-
-    .container-photo {
+    .container-settings {
         width: 100%;
         @include mixins.flex-column;
         border-radius: 1rem;
@@ -22,17 +21,108 @@
             border-radius: 0;
         }
 
-        >img {
-            width: 50%;
+        >p {
+            font-size: 1.5rem;
+            text-align: center;
+            color: variables.getColor(neon-red);
+            word-break: break-word;
+            padding: 1rem;
         }
 
-        .button {
+        >.input {
+            width: 100%;
+            max-width: 250px;
+            @include mixins.flex-center;
+            margin-top: 1.333rem;
+            padding: 0 3.2rem;
+
+            >input {
+                display: none;
+            }
+
+            >label {
+                cursor: pointer;
+                width: 100%;
+                text-align: center;
+                font-size: 1.5rem;
+                font-weight: 600;
+                color: white;
+                padding: 1rem 1.6rem;
+                border: 2px solid transparent;
+                border-radius: .5rem;
+                background-color: variables.getColor(neon-blue);
+                box-shadow: variables.getColor(blur-shadow);
+            }
+        }
+
+        >.button {
             max-width: 250px;
         }
 
-        form {
-            width: 100%;
-            @include mixins.flex-center;
+        >.form-wrapper {
+            z-index: 999;
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            max-width: 100%;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, .5);
+
+            &.wrapper {
+                display: block;
+            }
+
+            >.form-container {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 555px;
+                @include mixins.flex-column;
+                border: 2px solid variables.getColor(grey);
+                border-radius: .5rem;
+                background-color: variables.getColor(bgc);
+
+                @media screen and (max-width:555px) {
+                    width: 100%;
+                }
+
+                >.title {
+                    width: 100%;
+                    @include mixins.flex-center;
+                    justify-content: space-between;
+                    color: black;
+                    padding: 1.5rem;
+                    border-bottom: 2px solid variables.getColor(grey);
+                    background-color: variables.getColor(light-grey);
+                }
+
+                >form {
+                    width: 100%;
+                    overflow: hidden;
+
+                    >.container-file {
+                        @include mixins.flex-center;
+                        max-height: 70vh;
+                    }
+
+                    >.button {
+                        width: 100%;
+                        margin-top: 0;
+                        padding: 1.5rem;
+                        border-top: 2px solid variables.getColor(grey);
+                    }
+                }
+
+                .display-none {
+                    display: none;
+                }
+
+            }
         }
+
+
     }
 }

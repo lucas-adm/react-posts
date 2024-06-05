@@ -3,4 +3,9 @@
 
 .container-answers {
     width: 100%;
+
+    >.loading-svg {
+        @include mixins.flex-center;
+        width: 100%;
+    }
 }

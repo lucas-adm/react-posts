@@ -28,12 +28,9 @@
                 background-color: variables.getColor(grey);
             }
 
-            >img {
-                border-radius: 50%;
-                width: 256px;
-
-                @media screen and (max-width: 980px) {
-                    width: 200px;
+            .container-picture {
+                @media screen and (max-width: 1033px) {
+                    width: 200px !important;
                 }
             }
 

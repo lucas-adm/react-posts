@@ -23,6 +23,10 @@
         }
     }
 
+    >img {
+        margin: 0 auto;
+    }
+
     .container-center {
         @include mixins.flex-column;
         gap: 1rem;
@@ -73,7 +77,8 @@
                     &.advise {
                         margin: 3.33rem auto;
 
-                        &::after, &::before {
+                        &::after,
+                        &::before {
                             display: none;
                         }
                     }

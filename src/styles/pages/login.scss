@@ -18,6 +18,12 @@
         @include mixins.flex-column;
         background-color: variables.getColor(bgc);
 
+        >form {
+            @include mixins.flex-column;
+            gap: 2.25rem;
+            width: 100%;
+        }
+
         a {
             width: 100%;
         }
