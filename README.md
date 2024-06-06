@@ -1,5 +1,5 @@
-<h3 align="center">Posts</h3>
-
+<h3 align="center">Posts - <a href="https://github.com/lucas-adm/react-posts/releases/tag/Pre-Alpha"><i>pre-alpha</i></a></h3>
+<br>
 <div align="center">
 
   <img width="70px" height="70px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg">
@@ -18,12 +18,12 @@
 
 #### Este é apenas o início, logo trarei novas funcionalidades. Convido você a se cadastrar e interagir em minha humilde criação.
 
-### ▶ Acesse a aplicação <a href="srs-posts.onrender.com">*aqui*</a>
+### ▶ Acesse a aplicação <a href="https://srs-posts.onrender.com">*aqui*</a>
 
 #### 
 
 <div aling="center">
   
-  ![](https://i.imgur.com/ErerjW3.png)
+  ![](https://i.imgur.com/Z0P4Soy.png)
   
 </div>
