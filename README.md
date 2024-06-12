@@ -1,4 +1,4 @@
-<h3 align="center">Posts - <a href="https://github.com/lucas-adm/react-posts/releases/tag/Pre-Alpha"><i>pre-alpha</i></a></h3>
+<h3 align="center">Posts - <a href="https://github.com/lucas-adm/react-posts/releases/tag/Alpha"><i>alpha</i></a></h3>
 <br>
 <div align="center">
 
@@ -24,6 +24,6 @@
 
 <div aling="center">
   
-  ![](https://i.imgur.com/Z0P4Soy.png)
+  ![](https://i.imgur.com/2CsJzza.png)
   
 </div>
