@@ -113,13 +113,15 @@ const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDe
       .catch(error => console.error(error));
   }
 
-  // const [upvoted, setUpvoted] = useState(false);
-
-  // const upvote = () => {
-  //   setUpvoted(!upvoted);
-  // }
+  const [upvoted, setUpvoted] = useState(false);
 
   const [upvote, setUpvote] = useState<number>(upvotes ? upvotes : 0);
+
+  useEffect(() => {
+    axios.get(`${API}/posts/post/upvotes/${id}?username=${user?.username}`)
+      .then(response => setUpvoted(response.data))
+      .catch(() => { return })
+  }, [id, user?.id])
 
   const increase = () => {
     axios.post(`${API}/posts/post/upvotes/${id}`, {}, {
@@ -129,6 +131,7 @@ const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDe
     })
       .then(() => {
         setUpvote(upvote + 1);
+        setUpvoted(true);
       })
       .catch(() => {
         return;
@@ -143,6 +146,7 @@ const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDe
     })
       .then(() => {
         setUpvote(upvote - 1);
+        setUpvoted(false);
       })
       .catch(() => {
         return;
@@ -165,7 +169,7 @@ const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDe
         </div>
       </div>
       <div className="top">
-        <Picture src={photo} username={username} width="6.66rem"/>
+        <Picture src={photo} username={username} width="6.66rem" />
         <Link to={`/user/${username}`}><h1>{username}</h1></Link>
         <p>{time}</p>
       </div>
@@ -179,14 +183,15 @@ const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDe
           <Textarea action="Salvar" value={newText} error={error} handleOnChange={handleTextChange} handleOnClick={saveEdit} />
         </>}
       <div className="bottom">
-        {/* <SVGButton path={`${upvoted ? '/svgs/upvoted.svg' : '/svgs/upvotes.svg'}`} number={upvotes} handleOnClick={upvote} border /> */}
-        <div className="upvote">
-          <SVGButton path="/svgs/hide.svg" handleOnClick={increase} />
-          <p>{upvote}</p>
-          <SVGButton path="/svgs/load-more.svg" handleOnClick={decrease} />
-        </div>
+        {upvoted ?
+          <>
+            <SVGButton path="/svgs/upvoted.svg" number={upvote} handleOnClick={decrease} />
+          </> :
+          <>
+            <SVGButton path="/svgs/upvote.svg" number={upvote} handleOnClick={increase} />
+          </>}
         <Link to={`/post/${id}`}>
-          <SVGButton path={status === "OPEN" ? "/svgs/chat-open.svg" : "/svgs/chat-off.svg"} number={comments} border />
+          <SVGButton path={status === "ATIVO" ? "/svgs/chat-open.svg" : "/svgs/chat-off.svg"} number={comments} border />
         </Link>
         <Link to={`/post/${id}`}>
           <SVGButton text={status} />

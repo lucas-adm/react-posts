@@ -172,7 +172,7 @@ const PostPage = () => {
                     </div>
                     <Post key={post.id} id={post.id} username={post.username} photo={post.photo} text={post.text} time={post.datePost} status={status} upvotes={post.upvotes} comments={post.comments.length} />
                     <div className="container-comments">
-                        {status === "OPEN" ?
+                        {status === "ATIVO" ?
                             <>
                                 <div className="top">
                                     <h1>Comentários</h1>
