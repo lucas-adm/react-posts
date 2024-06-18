@@ -49,10 +49,39 @@ const Register = () => {
     birthDate: ""
   });
 
+  const [lastKey, setLastKey] = useState<string | null>(null);
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    setLastKey(event.key);
+  };
+
+  const [birthDate, setBirthDate] = useState<string>("");
+  const [validBirthDate, setValidBirthDate] = useState<boolean>(false);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.name === "birthDate") {
+      const value = event.target.value.replace(/\D/g, '').slice(0, 8);
+
+      const dd = value.slice(0, 2);
+      if (Number(dd.charAt(0)) > 3) return event.target.value = "";
+
+      let mm = value.slice(2, 4);
+      mm = mm.length === 1 && Number(mm.charAt(0)) > 1 ? `0${mm}` : mm;
+
+      const yyyy = value.slice(4);
+
+      const isBackSpacing = lastKey === "Backspace";
+
+      event.target.value = `${dd}${dd.length >= 2 && (!isBackSpacing || event.target.value.length > 3) ? "/" : ""}${mm}${mm.length >= 2 && (!isBackSpacing || event.target.value.length > 6) ? "/" : ""}${yyyy}`;
+
+      setBirthDate(`${yyyy.length === 4 ? yyyy + "-" : ""}${mm.length ? mm + "-" : ""}${dd}`);
+      setValidBirthDate(yyyy.length === 4);
+    }
+
     setForm({
       ...form,
-      [event.target.name]: event.target.value
+      [event.target.name]: event.target.value,
+      birthDate: birthDate
     });
 
     setErrors({
@@ -72,14 +101,12 @@ const Register = () => {
 
     setRequesting(true);
 
-    if (form.password != repeatPassword) {
-      setErrors({ ...errors, password: "As senhas não combinaram" });
-      return;
-    }
+    if (!validBirthDate) return setErrors({ ...errors, birthDate: "Data inválida" }), setRequesting(false);
+    if (form.password != repeatPassword) return setErrors({ ...errors, password: "As senhas não combinaram" }), setRequesting(false);
 
     const data = {
       ...form,
-      birthDate: new Date(form.birthDate)
+      birthDate: new Date(form.birthDate).toISOString().split('T')[0]
     };
 
     axios.post(`${API}/users/register`, data)
@@ -94,9 +121,9 @@ const Register = () => {
           const serverErrors = error.response.data;
 
           if (typeof serverErrors === 'string') {
-            serverErrors === "Email already exists." && (setErrors({ ...errors, email: serverErrors, username: "" }));
-            serverErrors === "Username already exists." && (setErrors({ ...errors, email: "", username: serverErrors }));
-            serverErrors === "Email or username are unavailable." && (setErrors({ ...errors, email: serverErrors, username: serverErrors }));
+            serverErrors === "Email já existe." && (setErrors({ ...errors, email: serverErrors, username: "" }));
+            serverErrors === "Usuário já existe." && (setErrors({ ...errors, email: "", username: serverErrors }));
+            serverErrors === "Email ou usuário indisponível." && (setErrors({ ...errors, email: serverErrors, username: serverErrors }));
           }
 
           if (Array.isArray(serverErrors)) {
@@ -110,7 +137,6 @@ const Register = () => {
 
         }
       });
-
   }
 
   return (
@@ -128,9 +154,11 @@ const Register = () => {
         <Input
           name="birthDate"
           label="Data de nascimento"
-          type="date"
+          type="text"
+          placeholder="dia/mês/ano"
           image='/svgs/cake.svg'
           handleOnChange={handleInputChange}
+          handleOnKeyDown={handleKeyDown}
           error={errors.birthDate} />
         <Input
           name="username"

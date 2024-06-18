@@ -8,6 +8,7 @@ type InputProps = {
     value?: string;
     image: string;
     handleOnChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleOnKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
     handleOnClick?: (event: React.MouseEvent<HTMLElement>) => void;
     error?: string;
     repeat?: {
@@ -22,12 +23,12 @@ type InputProps = {
     };
 };
 
-const Input: React.FC<InputProps> = ({ name, label, type, placeholder, value, image, handleOnChange, handleOnClick, error, repeat }) => {
+const Input = ({ name, label, type, placeholder, value, image, handleOnChange, handleOnKeyDown, handleOnClick, error, repeat }: InputProps) => {
     return (
         <div className="input">
             <label htmlFor={name}>{label}</label>
             <div className="input-content">
-                <input required name={name} type={type} placeholder={placeholder} value={value} onChange={handleOnChange} />
+                <input required name={name} type={type} placeholder={placeholder} value={value} onChange={handleOnChange} onKeyDown={handleOnKeyDown} />
                 <img src={image} alt="imagem do input" onClick={handleOnClick} />
             </div>
             {error && <div className="error">{error}</div>}
