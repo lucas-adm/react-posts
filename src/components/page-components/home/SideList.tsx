@@ -4,6 +4,10 @@ import Input from '../../form/Input'
 import Button from '../../form/Button'
 import UserIndex from '../user/UserIndex'
 
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../../redux/rootReducer';
+import { getUsers } from '../../../redux/users/actions';
+
 import { useState, useEffect, forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
@@ -13,24 +17,21 @@ type SideListProps = {
     onClose?: () => void;
 }
 
-interface UserState {
-    username: string;
-    photo: string;
-}
-
 const SideList = forwardRef<HTMLDivElement, SideListProps>(({ className, onClose }, ref) => {
 
-    const [users, setUsers] = useState<UserState[]>([])
+    const { users } = useSelector((state: RootState) => state.usersReducer);
+    const dispatch = useDispatch();
 
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        if (users.length) return;
         const API = import.meta.env.VITE_API;
         setLoading(true);
         axios.get(`${API}/users`)
-            .then(response => {
+            .then((response) => {
                 setLoading(false);
-                setUsers(response.data);
+                dispatch(getUsers(response.data))
             })
             .catch(() => setLoading(false));
     }, []);

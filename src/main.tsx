@@ -19,6 +19,9 @@ import UserPhoto from './components/page-components/user/UserPhoto.tsx'
 import UserEdit from './components/page-components/user/UserEdit.tsx'
 import UserDelete from './components/page-components/user/UserDelete.tsx'
 
+import { Provider } from 'react-redux'
+import store from './redux/store.ts'
+
 import { createHashRouter, RouterProvider } from 'react-router-dom'
 import Auth from './auth.tsx'
 import { UserProvider } from './context/UserProvider.tsx'
@@ -26,7 +29,7 @@ import { UserProvider } from './context/UserProvider.tsx'
 const router = createHashRouter([
   {
     path: '/',
-    element: <Auth><UserProvider><App /></UserProvider></Auth>,
+    element: <Auth><UserProvider><Provider store={store}><App /></Provider></UserProvider></Auth>,
     errorElement: <NotFound />,
     children: [
       {
