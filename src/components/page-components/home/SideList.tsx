@@ -11,6 +11,11 @@ import { useState, useEffect, forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 
+interface UserState {
+    username: string;
+    photo: string;
+}
+
 type SideListProps = {
     className?: string;
     onClose?: () => void;
@@ -18,7 +23,7 @@ type SideListProps = {
 
 const SideList = forwardRef<HTMLDivElement, SideListProps>(({ className, onClose }, ref) => {
 
-    const users = useSelector(useUsers);
+    const users: UserState[] = useSelector(useUsers);
 
     const dispatch = useDispatch();
 
