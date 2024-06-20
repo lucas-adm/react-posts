@@ -9,7 +9,9 @@ import BlurMessage from '../components/page-components/post/BlurMessage';
 import Textarea from '../components/form/Textarea';
 import Comment from '../components/page-components/post/Comment';
 
-import { useUser } from '../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../redux/user/slice';
+
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -36,7 +38,7 @@ type CommentType = {
 
 const PostPage = () => {
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     const navigate = useNavigate();
 
@@ -87,7 +89,10 @@ const PostPage = () => {
         setText(event.target.value);
     }
 
+    const [requesting, setRequesting] = useState<boolean>(false);
+
     const comment = () => {
+        error !== "ué" && setRequesting(true);
         axios.post(`${API}/posts/post/${post.id}/comments`, { text: text }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -95,11 +100,17 @@ const PostPage = () => {
         })
             .then(() => {
                 axios.get(`${API}/posts/post/${id}`)
-                    .then(response => setPost(response.data))
+                    .then((response) => {
+                        setRequesting(false);
+                        setText("");
+                        setPost(response.data);
+                    })
             })
             .catch(() => {
-                navigate('/');
-            })
+                setRequesting(false);
+                setError("ué");
+            }
+            )
     }
 
     const handleDeleteComment = (id: string) => {
@@ -188,7 +199,7 @@ const PostPage = () => {
                                         </div>
                                     </>
                                 )}
-                                <Textarea action="Comentar" error={error} handleOnChange={handleTextarea} handleOnClick={comment} />
+                                <Textarea action={`${requesting ? "..." : "Comentar"}`} error={error} handleOnChange={handleTextarea} handleOnClick={comment} />
                             </> :
                             <>
                                 <div className="top">

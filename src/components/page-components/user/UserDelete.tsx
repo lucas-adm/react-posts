@@ -4,14 +4,16 @@ import Input from "../../form/Input";
 import Button from "../../form/Button";
 import BlurMessage from '../post/BlurMessage';
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
+
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 const DeleteAccount = () => {
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     const navigate = useNavigate();
 

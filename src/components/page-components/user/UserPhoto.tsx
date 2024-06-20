@@ -4,7 +4,9 @@ import Picture from '../../picture/Picture';
 import SVGButton from '../../action/SVGButton';
 import Button from '../../form/Button';
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
+
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -16,7 +18,7 @@ import axios from 'axios';
 
 const ChangePhoto = () => {
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     const navigate = useNavigate();
 

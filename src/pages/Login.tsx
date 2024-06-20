@@ -69,6 +69,7 @@ const Login = () => {
       .then((response) => {
         setRequesting(false);
         localStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('username', form.username);
         sessionStorage.setItem('password', form.password);
         navigate('/');
       })

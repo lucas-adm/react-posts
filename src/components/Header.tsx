@@ -3,13 +3,17 @@ import '../styles/components/header.scss';
 import SVGButton from './action/SVGButton';
 import SideList from './page-components/home/SideList';
 
-import { useUser } from '../context/UserProvider';
+import { useSelector, useDispatch } from 'react-redux';
+import { useUser, logoutUser } from '../redux/user/slice';
+
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
 
-    const user = useUser();
+    const user = useSelector(useUser);
+
+    const dispatch = useDispatch();
 
     const [open, setOpen] = useState(false);
 
@@ -75,6 +79,7 @@ const Header = () => {
     });
 
     const logout = () => {
+        dispatch(logoutUser());
         localStorage.removeItem('token');
     }
 

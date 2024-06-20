@@ -5,8 +5,7 @@ import Button from '../../form/Button'
 import UserIndex from '../user/UserIndex'
 
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../../redux/rootReducer';
-import { getUsers } from '../../../redux/users/actions';
+import { useUsers, getUsers } from '../../../redux/users/slice';
 
 import { useState, useEffect, forwardRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -19,7 +18,8 @@ type SideListProps = {
 
 const SideList = forwardRef<HTMLDivElement, SideListProps>(({ className, onClose }, ref) => {
 
-    const { users } = useSelector((state: RootState) => state.usersReducer);
+    const users = useSelector(useUsers);
+
     const dispatch = useDispatch();
 
     const [loading, setLoading] = useState<boolean>(false);

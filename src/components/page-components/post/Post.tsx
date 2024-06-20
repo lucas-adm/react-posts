@@ -6,7 +6,9 @@ import Button from '../../form/Button';
 import Textarea from '../../form/Textarea';
 import BlurMessage from './BlurMessage';
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
+
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import axios from 'axios';
@@ -25,7 +27,7 @@ type PostProps = {
 
 const Post = ({ id, username, photo, text, time, upvotes, comments, status, onDelete }: PostProps) => {
 
-  const user = useUser();
+  const user = useSelector(useUser);
 
   const API = import.meta.env.VITE_API;
 

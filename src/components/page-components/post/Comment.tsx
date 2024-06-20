@@ -7,7 +7,9 @@ import BlurMessage from './BlurMessage';
 import Textarea from '../../form/Textarea';
 import Answers from './Answers';
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
+
 import { useState, useRef, useEffect } from 'react';
 import { Link } from "react-router-dom"
 import axios from 'axios';
@@ -22,13 +24,13 @@ type CommentProps = {
     onDelete: (id: string) => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateComment, answers, onDelete }) => {
+const Comment = ({ id, username, photo, text, dateComment, answers, onDelete }: CommentProps) => {
 
     const API = import.meta.env.VITE_API;
 
     const token = localStorage.getItem('token');
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     const [editing, setEditing] = useState(false)
 
@@ -99,21 +101,23 @@ const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateCommen
     }, [])
 
     const saveRemove = () => {
+        setRemoving(false);
         axios.delete(`${API}/posts/post/comments/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
             .then(() => {
-                setRemoving(false);
                 onDelete(id);
             })
             .catch(error => console.error(error));
     }
 
-    const [answering, setAnswering] = useState(false);
+    const [answering, setAnswering] = useState<boolean>(false);
 
-    const [answerText, setAnswerText] = useState("");
+    const [answerText, setAnswerText] = useState<string>("");
+
+    const [requesting, setRequesting] = useState<boolean>(false);
 
     const answer = () => {
         setEditing(false);
@@ -130,6 +134,7 @@ const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateCommen
     const [currentAnswers, setCurrentAnswers] = useState(answers);
 
     const postAnswer = () => {
+        setRequesting(true);
         axios.post(`${API}/posts/post/comments/${id}`, { text: answerText }, {
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -141,8 +146,12 @@ const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateCommen
                 setKey(prevKey => prevKey + 1);
                 setShowAnswers(true);
                 setCurrentAnswers(prevAnswers => prevAnswers + 1);
+                setRequesting(false);
             })
-            .catch(() => setError("ué"))
+            .catch(() => {
+                setError("ué");
+                setRequesting(false);
+            })
     }
 
     const [showAnswers, setShowAnswers] = useState(false);
@@ -193,7 +202,7 @@ const Comment: React.FC<CommentProps> = ({ id, username, photo, text, dateCommen
                     <SVGButton text={`${!answering ? "Responder" : "Cancelar"}`} handleOnClick={answer} />
                     {answering && (
                         <>
-                            < Textarea action="Responder" error={error} handleOnChange={handleAnswerText} handleOnClick={postAnswer} />
+                            < Textarea action={`${requesting ? "..." : "Responder"}`} error={error} handleOnChange={handleAnswerText} handleOnClick={postAnswer} />
                         </>
                     )}
                 </div>

@@ -3,13 +3,14 @@ import '../../../styles/components/page-components/home/side-profile.scss'
 import Picture from '../../picture/Picture';
 import Button from "../../form/Button"
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
 
 import { Link } from "react-router-dom";
 
 const SideProfile = () => {
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     return (
         <div className="user-detail">

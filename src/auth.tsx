@@ -1,4 +1,8 @@
 import { ReactNode, useEffect } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { logoutUser } from './redux/user/slice';
+
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 
@@ -6,12 +10,7 @@ interface DecodedToken {
     exp: number;
 }
 
-interface ProtectedRouteProps {
-    children: ReactNode;
-}
-
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-
+const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const token = localStorage.getItem('token');
     let isAuthenticated = false;
@@ -25,8 +24,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
         }
     }
 
+    const dispatch = useDispatch();
+
     useEffect(() => {
         if (!isAuthenticated) {
+            dispatch(logoutUser());
             navigate('/login');
         }
     }, [isAuthenticated, navigate]);

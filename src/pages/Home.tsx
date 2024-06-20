@@ -22,9 +22,12 @@ const Home = () => {
     setText(event.target.value);
   }
 
+  const [requesting, setRequesting] = useState<boolean>(false);
+
   const [key, setKey] = useState(0);
 
   const post = () => {
+    setRequesting(true);
     axios.post(`${API}/posts`, { text: text }, {
       headers: {
         'Authorization': `Bearer ${token}`
@@ -32,9 +35,11 @@ const Home = () => {
     }).then(() => {
       setKey(prevKey => prevKey + 1);
       setText("");
+      setRequesting(false);
     })
       .catch(() => {
         setError("ué");
+        setRequesting(false);
       })
   }
 
@@ -42,7 +47,7 @@ const Home = () => {
     <main className="container-home">
       <SideProfile />
       <div className="container-center">
-        <Textarea action="Post" error={error} handleOnChange={handleTextarea} handleOnClick={post} />
+        <Textarea action={`${requesting ? "..." : "Post"}`} error={error} handleOnChange={handleTextarea} handleOnClick={post} />
         <Posts key={key} />
       </div>
       <SideUsers />

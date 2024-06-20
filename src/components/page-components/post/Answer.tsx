@@ -5,7 +5,9 @@ import Button from '../../form/Button';
 import BlurMessage from './BlurMessage';
 import Textarea from '../../form/Textarea';
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
+
 import { useState, useRef, useEffect } from 'react';
 import { Link } from "react-router-dom"
 import axios from 'axios';
@@ -25,7 +27,7 @@ const Answer: React.FC<AnswerProps> = ({ id, username, photo, text, dateAnswer, 
 
     const token = localStorage.getItem('token');
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     const [editing, setEditing] = useState(false)
 

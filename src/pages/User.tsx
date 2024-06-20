@@ -3,11 +3,16 @@ import '../styles/pages/user.scss';
 import UserPosts from '../components/page-components/user/UserPosts';
 import SVGButton from '../components/action/SVGButton';
 
+import { useSelector } from 'react-redux';
+import { useUser } from '../redux/user/slice';
+
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const User = () => {
+
+  const currentUser = useSelector(useUser);
 
   const [user, setUser] = useState({
     username: "",
@@ -15,9 +20,9 @@ const User = () => {
     birthDate: ""
   })
 
-  const [loading, setLoading] = useState<boolean>(false);
-
   const param = useParams();
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const username = param.username;
 
@@ -26,6 +31,7 @@ const User = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (currentUser && currentUser?.username === username) setUser(currentUser);
     setLoading(true);
     const API = import.meta.env.VITE_API;
     axios.get(`${API}/users/${username}`)

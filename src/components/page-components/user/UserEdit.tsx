@@ -3,7 +3,8 @@ import '../../../styles/components/page-components/user/user-edit.scss';
 import Input from "../../form/Input"
 import Button from "../../form/Button"
 
-import { useUser } from '../../../context/UserProvider';
+import { useSelector } from 'react-redux';
+import { useUser } from '../../../redux/user/slice';
 
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -25,7 +26,7 @@ interface ErrorState {
 
 const Edit = () => {
 
-    const user = useUser();
+    const user = useSelector(useUser);
 
     const navigate = useNavigate();
 
