@@ -115,6 +115,7 @@ const Login = () => {
       .then((response) => {
         setRequestingAsGuest(false);
         localStorage.setItem('token', response.data.token);
+        sessionStorage.setItem('username', data.username);
         navigate('/');
       })
       .catch(() => setRequestingAsGuest(false));
