@@ -69,7 +69,7 @@ const Login = () => {
       .then((response) => {
         setRequesting(false);
         localStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('username', form.username);
+        localStorage.setItem('username', form.username);
         sessionStorage.setItem('password', form.password);
         navigate('/');
       })
@@ -115,7 +115,7 @@ const Login = () => {
       .then((response) => {
         setRequestingAsGuest(false);
         localStorage.setItem('token', response.data.token);
-        sessionStorage.setItem('username', data.username);
+        localStorage.setItem('username', data.username);
         navigate('/');
       })
       .catch(() => setRequestingAsGuest(false));

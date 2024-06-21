@@ -11,7 +11,7 @@ const UserProvider = ({ children }: { children: ReactNode }) => {
 
     const API = import.meta.env.VITE_API;
 
-    const username = sessionStorage.getItem('username');
+    const username = localStorage.getItem('username');
 
     useEffect(() => {
         if (user !== null) return;

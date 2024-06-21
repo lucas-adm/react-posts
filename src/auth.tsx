@@ -11,9 +11,12 @@ interface DecodedToken {
 }
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-    const navigate = useNavigate();
     const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+
     let isAuthenticated = false;
+
+    const navigate = useNavigate();
 
     if (token) {
         const decodedToken = jwtDecode<DecodedToken>(token);
@@ -27,13 +30,13 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (!isAuthenticated) {
+        if (!isAuthenticated || !username) {
             dispatch(logoutUser());
             navigate('/login');
         }
     }, [isAuthenticated, navigate]);
 
-    if (!isAuthenticated) {
+    if (!isAuthenticated || !username) {
         return null;
     }
 
