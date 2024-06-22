@@ -4,9 +4,10 @@
 
   <img width="70px" height="70px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg">
   <img width="75px" height="75px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg">
+  <img width="75px" height="75px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redux/redux-original.svg">
   <img width="75px" height="75px" src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg">
 
-  ###### TypeScript, React, Sass
+  ###### TypeScript, React, Redux, Sass
 
 </div>
 
@@ -24,6 +25,6 @@
 
 <div aling="center">
   
-  ![](https://i.imgur.com/2CsJzza.png)
+  ![](https://i.imgur.com/CbKYSCc.png)
   
 </div>
