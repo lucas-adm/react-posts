@@ -12,7 +12,7 @@ import axios from 'axios';
 const Recover = () => {
 
     const [requested, setRequested] = useState<boolean>(
-        localStorage.getItem("requested") === "true"
+        sessionStorage.getItem("requested") === "true"
     );
 
     const [requesting, setRequesting] = useState<boolean>(false);
@@ -43,7 +43,7 @@ const Recover = () => {
         const API = import.meta.env.VITE_API;
         axios.post(`${API}/users/recover`, data)
             .then(() => {
-                setRequesting(false), setRequested(true), localStorage.setItem("requested", "true");
+                setRequesting(false), setRequested(true), sessionStorage.setItem("requested", "true");
             })
             .catch((error) => {
                 const serverErrors = error.response.data;

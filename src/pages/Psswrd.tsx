@@ -82,7 +82,7 @@ const Psswrd = () => {
             }
         })
             .then(() => {
-                localStorage.removeItem("requested"), setRequesting(false), dispatch(logoutUser()), navigate('/');
+                sessionStorage.removeItem("requested"), setRequesting(false), dispatch(logoutUser()), navigate('/');
             })
             .catch((error) => {
                 const serverErrors = error.response.data;
