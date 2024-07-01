@@ -1,0 +1,33 @@
+@use '../../variables.scss';
+@use '../../mixins.scss';
+
+.container-art {
+    cursor: default;
+    position: relative;
+    @include mixins.flex-center;
+    max-width: 100vw;
+    width: 100vw;
+    min-height: 100vh;
+    background-color: variables.getColor(bgc);
+    overflow: hidden;
+
+    .top-wave {
+        svg {
+            fill: variables.getColor(neon-blue);
+            position: absolute;
+            top: 0;
+            left: -100%;
+            transform: rotate(175.55deg);
+        }
+    }
+
+    .bot-wave {
+        svg {
+            fill: variables.getColor(gold);
+            position: absolute;
+            bottom: 0;
+            right: -100%;
+            transform: rotate(355deg);
+        }
+    }
+}

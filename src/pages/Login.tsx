@@ -143,6 +143,9 @@ const Login = () => {
             handleOnClick={toggleShowPassword}
             handleOnChange={handleInputChange}
             error={errors.password} />
+          <div className="forgotten">
+            <Link to={'/recover'}>Esqueceu sua senha?</Link>
+          </div>
           <Button text={!requesting ? "Login" : "Logando..."} />
         </form>
         <div className="or"><h2>ou</h2></div>

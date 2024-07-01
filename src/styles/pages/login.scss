@@ -22,6 +22,17 @@
             @include mixins.flex-column;
             gap: 2.25rem;
             width: 100%;
+
+            >.forgotten {
+                width: 100%;
+                padding: 0 3.2rem;
+
+                >a {
+                    text-decoration: underline;
+                    font-size: 1.25rem;
+                    color: variables.getColor(neon-blue);
+                }
+            }
         }
 
         a {

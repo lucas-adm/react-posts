@@ -21,6 +21,8 @@ import Login from './pages/Login.tsx'
 import Register from './pages/Register.tsx'
 import Confirmation from './pages/Confirmation.tsx'
 import Greetings from './pages/Greetings.tsx'
+import Recover from './pages/Recover.tsx'
+import Psswrd from './pages/Psswrd.tsx'
 
 import UserPhoto from './components/page-components/user/UserPhoto.tsx'
 import UserEdit from './components/page-components/user/UserEdit.tsx'
@@ -81,6 +83,14 @@ const router = createHashRouter([
   {
     path: '/greetings',
     element: <Greetings />
+  },
+  {
+    path: '/recover',
+    element: <Recover></Recover>
+  },
+  {
+    path: '/psswrd/:token',
+    element: <Psswrd></Psswrd>
   }
 ])
 

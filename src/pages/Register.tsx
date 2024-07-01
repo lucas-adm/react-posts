@@ -59,6 +59,11 @@ const Register = () => {
   const [validBirthDate, setValidBirthDate] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setErrors({
+      ...errors,
+      [event.target.name]: ""
+    });
+
     if (event.target.name === "birthDate") {
       const value = event.target.value.replace(/\D/g, '').slice(0, 8);
 
@@ -82,11 +87,6 @@ const Register = () => {
       ...form,
       [event.target.name]: event.target.value,
       birthDate: birthDate
-    });
-
-    setErrors({
-      ...errors,
-      [event.target.name]: ""
     });
   };
 

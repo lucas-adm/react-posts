@@ -1,0 +1,12 @@
+@use '../variables.scss';
+@use '../mixins.scss';
+
+.container-psswrd {
+    z-index: 1;
+
+    >form {
+        input {
+            min-width: 30rem;
+        }
+    }
+}

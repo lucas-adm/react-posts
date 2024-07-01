@@ -1,0 +1,21 @@
+@use '../variables.scss';
+@use '../mixins.scss';
+
+.container-recover {
+    z-index: 1;
+
+    > form {
+        text-align: center;
+        @include mixins.flex-column;
+        gap: .5rem;
+
+        input {
+            min-width: 30rem;
+        }
+    }
+
+    p {
+        font-size: 1.5rem;
+        color: variables.getColor(text);
+    }
+}
