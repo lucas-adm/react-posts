@@ -86,11 +86,11 @@ const router = createHashRouter([
   },
   {
     path: '/recover',
-    element: <Recover></Recover>
+    element: <Recover />
   },
   {
     path: '/psswrd/:token',
-    element: <Psswrd></Psswrd>
+    element: <Provider store={store}><Psswrd /></Provider>
   }
 ])
 
